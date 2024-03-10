@@ -7,10 +7,9 @@ import lk.riyapola.riyapola.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/admin")
@@ -25,5 +24,20 @@ public class AdminController {
     public ResponseEntity<Admin> saveAdmin(@RequestBody AdminDTO adminDTO){
        Admin admin= adminService.saveAdmin(adminDTO);
        return  new ResponseEntity<>(admin, HttpStatus.CREATED);
+    }
+    @GetMapping
+    public ResponseEntity<List<Admin>> getAdmin(){
+    List <Admin> allAdmins=adminService.getAllAdmin();
+    return new ResponseEntity<>(allAdmins,HttpStatus.OK);
+    }
+    @PutMapping("/{adminId}")
+    public ResponseEntity<Admin> updateAdmin(@PathVariable Integer adminId,@RequestBody AdminDTO adminDTO){
+    Admin admin=adminService.updateAdmin(adminId,adminDTO);
+    return new ResponseEntity<>(admin,HttpStatus.OK);
+    }
+    @DeleteMapping("/{adminId}")
+    public  ResponseEntity<String> deleteAdmin(@PathVariable Integer adminId){
+    String output= adminService.deleteCustomer(adminId);
+    return  new ResponseEntity<>(output,HttpStatus.CREATED);
     }
 }
