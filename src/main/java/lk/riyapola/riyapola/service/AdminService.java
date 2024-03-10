@@ -5,10 +5,12 @@ import lk.riyapola.riyapola.entity.Admin;
 import lk.riyapola.riyapola.repo.AdminRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AdminService {
@@ -39,5 +41,12 @@ public class AdminService {
         return "Admin Deleted!";
     }
     return  "No Admin Found!";
+    }
+    public Admin searchAdmin(Integer id){
+    Optional <Admin> byId= adminRepo.findById(id);
+    return  byId.orElse(null);
+    }
+    public Admin searchAdminByName(String name){
+    return  adminRepo.findAdminByFirstName(name);
     }
 }

@@ -40,4 +40,15 @@ public class AdminController {
     String output= adminService.deleteCustomer(adminId);
     return  new ResponseEntity<>(output,HttpStatus.CREATED);
     }
+    @GetMapping("/search_admin/{adminId}")
+    public ResponseEntity<Admin> searchAdmin(@PathVariable Integer adminId){
+    Admin admin=adminService.searchAdmin(adminId);
+    return  new ResponseEntity<>(admin,HttpStatus.OK);
+    }
+    @GetMapping("/search_admin_name/{adminName}")
+    public ResponseEntity<Admin> searchAdmin(@PathVariable String adminName){
+        Admin admin=adminService.searchAdminByName(adminName);
+        return  new ResponseEntity<>(admin,HttpStatus.OK);
+    }
+
 }
