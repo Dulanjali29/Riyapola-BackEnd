@@ -51,4 +51,10 @@ public class CustomerController {
     Customer customer=customerService.searchCustomerById(customerId);
     return  new ResponseEntity<>(customer,HttpStatus.OK);
     }
+
+    @GetMapping("/search_customer_name/{customerName}")
+    public  ResponseEntity<Customer>searchCustomerByName(@PathVariable String customerName){
+        Customer customer=customerService.searchCustomerByName(customerName);
+        return  new ResponseEntity<>(customer,HttpStatus.OK);
+    }
 }
