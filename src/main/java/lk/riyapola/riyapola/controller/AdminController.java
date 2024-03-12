@@ -66,7 +66,7 @@ public class AdminController {
     }
 
     @PostMapping("/login")
-    public  ResponseEntity<HashMap<String,String>> loginAdmin(@RequestBody AdminDTO adminDTO){
+    public  ResponseEntity<HashMap<String,String>> adminLogin(@RequestBody AdminDTO adminDTO){
       HashMap<String,String> res=adminService.adminLogin(adminDTO);
       return  new ResponseEntity<>(res,HttpStatus.CREATED);
     }
