@@ -27,4 +27,10 @@ public class CustomerService {
     public List<Customer> getAllCustomer(){
         return customerRepo.findAll();
     }
+    public  Customer updateCustomer(Integer id,CustomerDTO customerDTO){
+        if(customerRepo.existsById(id)){
+           return  customerRepo.save(new Customer(id,customerDTO.getFirstName(),customerDTO.getLastName(),customerDTO.getUserName(),customerDTO.getPassword(),customerDTO.getDateTime()));
+        }
+        return  null;
+    }
 }

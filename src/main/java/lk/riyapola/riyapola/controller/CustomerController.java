@@ -35,4 +35,9 @@ public class CustomerController {
     List <Customer> allCustomers=customerService.getAllCustomer();
     return  new ResponseEntity<>(allCustomers,HttpStatus.OK);
     }
+    @PutMapping("/{customerId}")
+    public  ResponseEntity<Customer> updateCustomer(@PathVariable Integer customerId,@RequestBody CustomerDTO customerDTO){
+     Customer customer=customerService.updateCustomer(customerId,customerDTO);
+    return  new ResponseEntity<>(customer,HttpStatus.OK);
+    }
 }
