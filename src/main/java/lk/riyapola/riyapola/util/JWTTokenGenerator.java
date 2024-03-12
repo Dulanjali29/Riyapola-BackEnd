@@ -5,6 +5,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lk.riyapola.riyapola.dto.AdminDTO;
+import lk.riyapola.riyapola.dto.CustomerDTO;
 import lk.riyapola.riyapola.entity.Admin;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -28,10 +29,19 @@ public class JWTTokenGenerator {
                 .signWith(key(), SignatureAlgorithm.HS256)
                 .compact();
     }
-
+    public String generateJwtToken(CustomerDTO customerDTO) {
+        return Jwts.builder()
+                .setId(String.valueOf(customerDTO.getCustomer_id()))
+                .setSubject((customerDTO.getUserName()))
+                .setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                .signWith(key(), SignatureAlgorithm.HS256)
+                .compact();
+    }
     private Key key() {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
     }
+
 
     public boolean validateJwtToken(String authToken) {
         String jwtToken = authToken.substring("Bearer ".length());

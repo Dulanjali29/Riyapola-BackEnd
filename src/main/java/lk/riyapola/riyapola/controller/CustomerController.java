@@ -1,6 +1,8 @@
 package lk.riyapola.riyapola.controller;
 
+import lk.riyapola.riyapola.dto.AdminDTO;
 import lk.riyapola.riyapola.dto.CustomerDTO;
+import lk.riyapola.riyapola.entity.Admin;
 import lk.riyapola.riyapola.entity.Customer;
 import lk.riyapola.riyapola.repo.CustomerRepo;
 import lk.riyapola.riyapola.service.CustomerService;
@@ -10,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -30,10 +33,14 @@ public class CustomerController {
    return  new ResponseEntity<>(cus, HttpStatus.CREATED);
     }
 
-    @GetMapping
-   public ResponseEntity<List<Customer>> getAllCustomer(){
-    List <Customer> allCustomers=customerService.getAllCustomer();
-    return  new ResponseEntity<>(allCustomers,HttpStatus.OK);
+    @GetMapping("/getAllCustomers")
+   public ResponseEntity<Object> getAllCustomer(@RequestHeader(name="Authorization") String authorizationHeader){
+        if(jwtTokenGenerator.validateJwtToken(authorizationHeader)){
+            List<Customer> allCustomers = customerService.getAllCustomer();
+            return new ResponseEntity<>(allCustomers, HttpStatus.OK);
+        }else {
+            return  new ResponseEntity<>("Invalid token By Admin",HttpStatus.FORBIDDEN);
+        }
     }
     @PutMapping("/{customerId}")
     public  ResponseEntity<Customer> updateCustomer(@PathVariable Integer customerId,@RequestBody CustomerDTO customerDTO){
@@ -56,5 +63,10 @@ public class CustomerController {
     public  ResponseEntity<Customer>searchCustomerByName(@PathVariable String customerName){
         Customer customer=customerService.searchCustomerByName(customerName);
         return  new ResponseEntity<>(customer,HttpStatus.OK);
+    }
+    @PostMapping("/login")
+    public  ResponseEntity<HashMap<String,String>> customerLogin(@RequestBody CustomerDTO customerDTO){
+        HashMap<String,String> res=customerService.customerLogin(customerDTO);
+        return  new ResponseEntity<>(res,HttpStatus.CREATED);
     }
 }
