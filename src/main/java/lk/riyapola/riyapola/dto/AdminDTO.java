@@ -12,8 +12,8 @@ import lombok.ToString;
 @ToString
 public class AdminDTO {
 
-    private  Integer admin_id;
-    private String firstName;
+    private  int admin_id;
+    private  String firstName;
     private  String lastName;
     private  String userName;
     private  String password;

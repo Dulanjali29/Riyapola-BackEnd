@@ -36,9 +36,14 @@ public class AdminController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Admin>> getAdmin() {
-        List<Admin> allAdmins = adminService.getAllAdmin();
-        return new ResponseEntity<>(allAdmins, HttpStatus.OK);
+    public ResponseEntity<Object> getAdmin(@RequestHeader(name="Authorization") String authorizationHeader) {
+        if(jwtTokenGenerator.validateJwtToken(authorizationHeader)){
+            List<Admin> allAdmins = adminService.getAllAdmin();
+            return new ResponseEntity<>(allAdmins, HttpStatus.OK);
+        }else {
+        return  new ResponseEntity<>("Invalid token By Admin",HttpStatus.FORBIDDEN);
+        }
+
     }
 
     @PutMapping("/{adminId}")
@@ -67,7 +72,7 @@ public class AdminController {
 
     @PostMapping("/login")
     public  ResponseEntity<HashMap<String,String>> adminLogin(@RequestBody AdminDTO adminDTO){
-      HashMap<String,String> res=adminService.adminLogin(adminDTO);
+      HashMap<String,String> res=adminService.loginAdmin(adminDTO);
       return  new ResponseEntity<>(res,HttpStatus.CREATED);
     }
 

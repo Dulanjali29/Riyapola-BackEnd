@@ -62,7 +62,7 @@ public class AdminService {
         return adminRepo.findAdminByFirstName(name);
     }
 
-    public HashMap<String, String> adminLogin( AdminDTO adminDTO) {
+    public HashMap<String, String> loginAdmin( AdminDTO adminDTO) {
         HashMap<String, String> response = new HashMap<>();
         Admin adminByUsernameAndPassword = adminRepo.findByUserNameAndPassword(adminDTO.getUserName(), adminDTO.getPassword());
         if (adminByUsernameAndPassword != null) {
