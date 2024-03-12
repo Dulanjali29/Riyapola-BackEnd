@@ -26,4 +26,15 @@ public class Customer {
     private  String password;
     private String dateTime;
 
+    public Customer(String firstName, String lastName, String nic, String address, String contact, String email, String userName, String password, String dateTime) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.nic = nic;
+        this.address = address;
+        this.contact = contact;
+        this.email = email;
+        this.userName = userName;
+        this.password = password;
+        this.dateTime = dateTime;
+    }
 }
