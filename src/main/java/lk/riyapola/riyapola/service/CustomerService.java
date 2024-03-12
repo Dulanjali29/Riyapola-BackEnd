@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Base64;
+import java.util.List;
 
 @Service
 public class CustomerService {
@@ -22,5 +23,8 @@ public class CustomerService {
 
         Customer save = customerRepo.save(new Customer(customerDTO.getFirstName(), customerDTO.getLastName(), customerDTO.getUserName(), customerDTO.getPassword(), customerDTO.getDateTime()));
         return save;
+    }
+    public List<Customer> getAllCustomer(){
+        return customerRepo.findAll();
     }
 }
