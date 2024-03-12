@@ -14,13 +14,13 @@ public class CustomerService {
 
     @Autowired
     public CustomerService(CustomerRepo customerRepo) {
+
         this.customerRepo = customerRepo;
     }
 
-    public Customer saveCustomer(CustomerDTO customerDTO) {
-        String encodePassword = Base64.getEncoder().encodeToString(customerDTO.getPassword().getBytes());
+    public Customer registerCustomer(CustomerDTO customerDTO) {
 
-        Customer save = customerRepo.save(new Customer(customerDTO.getFirstName(), customerDTO.getLastName(), customerDTO.getNic(), customerDTO.getAddress(), customerDTO.getContact(), customerDTO.getEmail(), customerDTO.getUserName(), encodePassword, customerDTO.getDateTime()));
+        Customer save = customerRepo.save(new Customer(customerDTO.getFirstName(), customerDTO.getLastName(), customerDTO.getUserName(), customerDTO.getPassword(), customerDTO.getDateTime()));
         return save;
     }
 }

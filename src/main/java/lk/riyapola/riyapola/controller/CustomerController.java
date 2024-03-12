@@ -23,8 +23,8 @@ public class CustomerController {
     this.jwtTokenGenerator = jwtTokenGenerator;
 }
     @PostMapping
-    public ResponseEntity<Customer> saveCustomer(@RequestBody CustomerDTO customerDTO){
-   Customer cus= customerService.saveCustomer(customerDTO);
+    public ResponseEntity<Customer> registerCustomer(@RequestBody CustomerDTO customerDTO){
+   Customer cus= customerService.registerCustomer(customerDTO);
    return  new ResponseEntity<>(cus, HttpStatus.CREATED);
     }
 }
