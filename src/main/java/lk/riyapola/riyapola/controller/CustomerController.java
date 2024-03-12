@@ -45,4 +45,10 @@ public class CustomerController {
     String output=customerService.deleteCustomer(customerId);
     return  new ResponseEntity<>(output,HttpStatus.CREATED);
     }
+
+    @GetMapping("/search_customer/{customerId}")
+    public  ResponseEntity<Customer>searchCustomerById(@PathVariable Integer customerId){
+    Customer customer=customerService.searchCustomerById(customerId);
+    return  new ResponseEntity<>(customer,HttpStatus.OK);
+    }
 }

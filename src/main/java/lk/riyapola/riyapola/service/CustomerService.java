@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CustomerService {
@@ -39,5 +40,9 @@ public class CustomerService {
             return "Delete Customer!";
         }
         return "No customerFound!";
+    }
+    public  Customer searchCustomerById(Integer id){
+        Optional<Customer> byId=customerRepo.findById(id);
+        return byId.orElse(null);
     }
 }
