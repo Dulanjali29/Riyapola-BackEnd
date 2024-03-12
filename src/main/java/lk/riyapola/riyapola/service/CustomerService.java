@@ -33,4 +33,11 @@ public class CustomerService {
         }
         return  null;
     }
+    public String deleteCustomer(Integer id){
+        if(customerRepo.existsById(id)){
+            customerRepo.deleteById(id);
+            return "Delete Customer!";
+        }
+        return "No customerFound!";
+    }
 }

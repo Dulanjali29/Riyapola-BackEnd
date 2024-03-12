@@ -40,4 +40,9 @@ public class CustomerController {
      Customer customer=customerService.updateCustomer(customerId,customerDTO);
     return  new ResponseEntity<>(customer,HttpStatus.OK);
     }
+    @DeleteMapping("/{customerId}")
+    public ResponseEntity<String> deleteCustomer(@PathVariable Integer customerId){
+    String output=customerService.deleteCustomer(customerId);
+    return  new ResponseEntity<>(output,HttpStatus.CREATED);
+    }
 }
