@@ -28,7 +28,8 @@ private  final JWTTokenGenerator jwtTokenGenerator;
 
     public Customer registerCustomer(CustomerDTO customerDTO) {
 
-        Customer save = customerRepo.save(new Customer(customerDTO.getFirstName(), customerDTO.getLastName(), customerDTO.getUserName(), customerDTO.getPassword(), customerDTO.getDateTime()));
+        Customer save = customerRepo.save(new Customer(customerDTO.getFirstName(), customerDTO.getLastName(), customerDTO.getUserName(),
+                customerDTO.getPassword(), customerDTO.getDateTime()));
         return save;
     }
     public List<Customer> getAllCustomer(){
@@ -36,7 +37,8 @@ private  final JWTTokenGenerator jwtTokenGenerator;
     }
     public  Customer updateCustomer(Integer id,CustomerDTO customerDTO){
         if(customerRepo.existsById(id)){
-           return  customerRepo.save(new Customer(id,customerDTO.getFirstName(),customerDTO.getLastName(),customerDTO.getUserName(),customerDTO.getPassword(),customerDTO.getDateTime()));
+           return  customerRepo.save(new Customer(id,customerDTO.getFirstName(),customerDTO.getLastName(),customerDTO.getUserName(),
+                   customerDTO.getPassword(),customerDTO.getDateTime()));
         }
         return  null;
     }
