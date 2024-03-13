@@ -57,9 +57,14 @@ public class CustomerController {
     }
 
     @DeleteMapping("/{customerId}")
-    public ResponseEntity<String> deleteCustomer(@PathVariable Integer customerId) {
-        String output = customerService.deleteCustomer(customerId);
-        return new ResponseEntity<>(output, HttpStatus.CREATED);
+    public ResponseEntity<Object> deleteCustomer(@PathVariable Integer customerId, @RequestHeader(name = "Authorization") String authorizationHeader) {
+        if(jwtTokenGenerator.validateJwtToken(authorizationHeader)){
+            String output = customerService.deleteCustomer(customerId);
+            return new ResponseEntity<>(output, HttpStatus.CREATED);
+        }else {
+            return new ResponseEntity<>("Invalid token By Admin", HttpStatus.FORBIDDEN);
+        }
+
     }
 
     @GetMapping("/search_customer/{customerId}")
