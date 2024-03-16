@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
@@ -47,9 +47,12 @@ public class AdminController {
     }
 
     @PutMapping("/{adminId}")
-    public ResponseEntity<Admin> updateAdmin(@PathVariable Integer adminId, @RequestBody AdminDTO adminDTO) {
-        Admin admin = adminService.updateAdmin(adminId, adminDTO);
-        return new ResponseEntity<>(admin, HttpStatus.OK);
+    public ResponseEntity<Object> updateAdmin(@PathVariable Integer adminId, @RequestBody AdminDTO adminDTO,@RequestHeader(name="Authorization") String authorizationHeader) {
+        if(jwtTokenGenerator.validateJwtToken(authorizationHeader)){
+            Admin admin = adminService.updateAdmin(adminId, adminDTO);
+            return new ResponseEntity<>(admin, HttpStatus.OK);
+        }
+        return  new ResponseEntity<>("Invalid token By Admin",HttpStatus.FORBIDDEN);
     }
 
     @DeleteMapping("/{adminId}")
@@ -72,8 +75,18 @@ public class AdminController {
 
     @PostMapping("/login")
     public  ResponseEntity<HashMap<String,String>> adminLogin(@RequestBody AdminDTO adminDTO){
-      HashMap<String,String> res=adminService.loginAdmin(adminDTO);
-      return  new ResponseEntity<>(res,HttpStatus.CREATED);
+        if(adminDTO!=null){
+            HashMap<String,String> res=adminService.loginAdmin(adminDTO);
+            if(res!=null &&!res.isEmpty()){
+                return  new ResponseEntity<>(res,HttpStatus.OK);
+            }else{
+                return  new ResponseEntity<>(res,HttpStatus.UNAUTHORIZED);
+            }
+        }else {
+            return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+
     }
 
 

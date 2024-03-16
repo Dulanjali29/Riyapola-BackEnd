@@ -81,6 +81,7 @@ public class CustomerController {
 
     @PostMapping("/login")
     public ResponseEntity<HashMap<String, String>> customerLogin(@RequestBody CustomerDTO customerDTO) {
+
         HashMap<String, String> res = customerService.customerLogin(customerDTO);
         return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
