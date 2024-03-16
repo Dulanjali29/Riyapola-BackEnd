@@ -29,13 +29,13 @@ public class AdminController {
         this.jwtTokenGenerator = jwtTokenGenerator;
     }
 
-    @PostMapping
+    @PostMapping("/saveAdmin")
     public ResponseEntity<Admin> saveAdmin(@RequestBody AdminDTO adminDTO) {
         Admin admin = adminService.saveAdmin(adminDTO);
         return new ResponseEntity<>(admin, HttpStatus.CREATED);
     }
 
-    @GetMapping
+    @GetMapping("/getAllAdmin")
     public ResponseEntity<Object> getAdmin(@RequestHeader(name="Authorization") String authorizationHeader) {
         if(jwtTokenGenerator.validateJwtToken(authorizationHeader)){
             List<Admin> allAdmins = adminService.getAllAdmin();
@@ -75,9 +75,9 @@ public class AdminController {
 
     @PostMapping("/login")
     public  ResponseEntity<HashMap<String,String>> adminLogin(@RequestBody AdminDTO adminDTO){
-        if(adminDTO!=null){
+        if(adminDTO != null){
             HashMap<String,String> res=adminService.loginAdmin(adminDTO);
-            if(res!=null &&!res.isEmpty()){
+            if(res!=null && !res.isEmpty()){
                 return  new ResponseEntity<>(res,HttpStatus.OK);
             }else{
                 return  new ResponseEntity<>(res,HttpStatus.UNAUTHORIZED);
