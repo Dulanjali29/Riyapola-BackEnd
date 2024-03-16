@@ -46,7 +46,7 @@ public class AdminController {
 
     }
 
-    @PutMapping("/{adminId}")
+    @PutMapping("/updateAdmin/{adminId}")
     public ResponseEntity<Object> updateAdmin(@PathVariable Integer adminId, @RequestBody AdminDTO adminDTO,@RequestHeader(name="Authorization") String authorizationHeader) {
         if(jwtTokenGenerator.validateJwtToken(authorizationHeader)){
             Admin admin = adminService.updateAdmin(adminId, adminDTO);
@@ -55,7 +55,7 @@ public class AdminController {
         return  new ResponseEntity<>("Invalid token By Admin",HttpStatus.FORBIDDEN);
     }
 
-    @DeleteMapping("/{adminId}")
+    @DeleteMapping("/deleteAdmin/{adminId}")
     public ResponseEntity<String> deleteAdmin(@PathVariable Integer adminId) {
         String output = adminService.deleteCustomer(adminId);
         return new ResponseEntity<>(output, HttpStatus.CREATED);
