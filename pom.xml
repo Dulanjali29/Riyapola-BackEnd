@@ -57,7 +57,14 @@
 			<version>1.18.30</version>
 			<scope>provided</scope>
 		</dependency>
-<!--		security-->
+		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>6.2.2</version>
+		</dependency>
+
+		<!--		security-->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-api</artifactId>

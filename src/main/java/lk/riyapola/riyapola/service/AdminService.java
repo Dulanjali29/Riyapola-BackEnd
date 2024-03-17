@@ -7,6 +7,7 @@ import lk.riyapola.riyapola.repo.AdminRepo;
 import lk.riyapola.riyapola.util.JWTTokenGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -28,12 +29,18 @@ public class AdminService {
 
 
     public Admin saveAdmin(AdminDTO adminDTO) {
-//    String encodePassword= Base64.getEncoder().encodeToString(adminDTO.getPassword().getBytes());
-        Admin save = adminRepo.save(new Admin(adminDTO.getFirstName(), adminDTO.getLastName(), adminDTO.getUserName(), adminDTO.getPassword(), adminDTO.getRole()));
-        return save;
+        if(adminDTO!=null){
+            BCryptPasswordEncoder bCryptPasswordEncoder=new BCryptPasswordEncoder();
+            String enPassword=bCryptPasswordEncoder.encode(adminDTO.getPassword());
+            Admin save = adminRepo.save(new Admin(adminDTO.getFirstName(), adminDTO.getLastName(), adminDTO.getUserName(), enPassword, adminDTO.getRole()));
+            return  save;
+        }
+
+        return null;
     }
 
     public List<Admin> getAllAdmin() {
+
         return adminRepo.findAll();
     }
 
