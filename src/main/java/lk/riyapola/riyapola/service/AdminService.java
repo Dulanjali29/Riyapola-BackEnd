@@ -2,8 +2,10 @@ package lk.riyapola.riyapola.service;
 
 import lk.riyapola.riyapola.dto.AdminDTO;
 import lk.riyapola.riyapola.entity.Admin;
+import lk.riyapola.riyapola.entity.Customer;
 import lk.riyapola.riyapola.repo.AdminRepo;
 
+import lk.riyapola.riyapola.repo.CustomerRepo;
 import lk.riyapola.riyapola.util.JWTTokenGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +22,12 @@ import java.util.Optional;
 public class AdminService {
     private final AdminRepo adminRepo;
     private final JWTTokenGenerator jwtTokenGenerator;
-
+private  final CustomerRepo customerRepo;
     @Autowired
-    public AdminService(AdminRepo adminRepo, JWTTokenGenerator jwtTokenGenerator) {
+    public AdminService(AdminRepo adminRepo, JWTTokenGenerator jwtTokenGenerator, CustomerRepo customerRepo) {
         this.adminRepo = adminRepo;
         this.jwtTokenGenerator = jwtTokenGenerator;
+        this.customerRepo = customerRepo;
     }
 
 
@@ -67,7 +70,7 @@ public class AdminService {
         return null;
     }
 
-    public String deleteCustomer(Integer id) {
+    public String deleteAdmin(Integer id) {
         if (adminRepo.existsById(id)) {
             adminRepo.deleteById(id);
             return "Admin Deleted!";
@@ -101,5 +104,9 @@ public class AdminService {
             response.put("massage", "Admin Not found");
         }
         return response;
+    }
+    public List<Customer> getAllCustomers(){
+        List<Customer> allCustomer=customerRepo.findAll();
+        return  allCustomer;
     }
 }

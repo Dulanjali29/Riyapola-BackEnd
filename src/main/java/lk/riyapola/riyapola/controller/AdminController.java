@@ -2,6 +2,7 @@ package lk.riyapola.riyapola.controller;
 
 import lk.riyapola.riyapola.dto.AdminDTO;
 import lk.riyapola.riyapola.entity.Admin;
+import lk.riyapola.riyapola.entity.Customer;
 import lk.riyapola.riyapola.repo.AdminRepo;
 import lk.riyapola.riyapola.service.AdminService;
 
@@ -57,7 +58,7 @@ public class AdminController {
 
     @DeleteMapping("/deleteAdmin/{adminId}")
     public ResponseEntity<String> deleteAdmin(@PathVariable Integer adminId) {
-        String output = adminService.deleteCustomer(adminId);
+        String output = adminService.deleteAdmin(adminId);
         return new ResponseEntity<>(output, HttpStatus.CREATED);
     }
 
@@ -72,7 +73,16 @@ public class AdminController {
         Admin admin = adminService.searchAdminByName(adminName);
         return new ResponseEntity<>(admin, HttpStatus.OK);
     }
+    @GetMapping("/getAllCustomers")
+    public ResponseEntity<Object> getAllCustomer(@RequestHeader(name="Authorization") String authorizationHeader) {
+        if(jwtTokenGenerator.validateJwtToken(authorizationHeader)){
+            List<Customer> allCustomers = adminService.getAllCustomers();
+            return new ResponseEntity<>(allCustomers, HttpStatus.OK);
+        }else {
+            return  new ResponseEntity<>("Invalid token By Customers",HttpStatus.FORBIDDEN);
+        }
 
+    }
     @PostMapping("/login")
     public  ResponseEntity<HashMap<String,String>> adminLogin(@RequestBody AdminDTO adminDTO){
         if(adminDTO != null){
