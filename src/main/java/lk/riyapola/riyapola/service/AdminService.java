@@ -41,7 +41,13 @@ public class AdminService {
 
     public List<Admin> getAllAdmin() {
 
-        return adminRepo.findAll();
+//        return adminRepo.findAll();
+        try {
+            return adminRepo.findAll();
+        }catch (Exception e){
+            e.printStackTrace();
+            throw  new RuntimeException("Error Axios data");
+        }
     }
 
     public Admin updateAdmin(Integer id, AdminDTO adminDTO) {
@@ -71,8 +77,12 @@ public class AdminService {
 
     public HashMap<String, String> loginAdmin( AdminDTO adminDTO) {
         HashMap<String, String> response = new HashMap<>();
-        Admin adminByUsernameAndPassword = adminRepo.findByUserNameAndPassword(adminDTO.getUserName(), adminDTO.getPassword());
-        if (adminByUsernameAndPassword != null) {
+        BCryptPasswordEncoder decodePassword=new BCryptPasswordEncoder();
+        Admin admin=new Admin();
+      boolean matches=  decodePassword.matches(adminDTO.getPassword(),admin.getPassword());
+        Admin newAdmin=adminRepo.findByUserName(adminDTO.getUserName());
+
+        if (newAdmin != null && !matches) {
             String token = this.jwtTokenGenerator.generateJwtToken(adminDTO);
             response.put("token", token);
         } else {
