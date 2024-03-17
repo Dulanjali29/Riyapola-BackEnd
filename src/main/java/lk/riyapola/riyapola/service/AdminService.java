@@ -29,11 +29,11 @@ public class AdminService {
 
 
     public Admin saveAdmin(AdminDTO adminDTO) {
-        if(adminDTO!=null){
-            BCryptPasswordEncoder bCryptPasswordEncoder=new BCryptPasswordEncoder();
-            String enPassword=bCryptPasswordEncoder.encode(adminDTO.getPassword());
+        if (adminDTO != null) {
+            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+            String enPassword = bCryptPasswordEncoder.encode(adminDTO.getPassword());
             Admin save = adminRepo.save(new Admin(adminDTO.getFirstName(), adminDTO.getLastName(), adminDTO.getUserName(), enPassword, adminDTO.getRole()));
-            return  save;
+            return save;
         }
 
         return null;
@@ -44,13 +44,14 @@ public class AdminService {
 //        return adminRepo.findAll();
         try {
             return adminRepo.findAll();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            throw  new RuntimeException("Error Axios data");
+            throw new RuntimeException("Error Axios data");
         }
     }
 
     public Admin updateAdmin(Integer id, AdminDTO adminDTO) {
+
         if (adminRepo.existsById(id)) {
             return adminRepo.save(new Admin(id, adminDTO.getFirstName(), adminDTO.getLastName(), adminDTO.getUserName(), adminDTO.getPassword(), adminDTO.getRole()));
         }
@@ -75,18 +76,20 @@ public class AdminService {
         return adminRepo.findAdminByFirstName(name);
     }
 
-    public HashMap<String, String> loginAdmin( AdminDTO adminDTO) {
+    public HashMap<String, String> loginAdmin(AdminDTO adminDTO) {
         HashMap<String, String> response = new HashMap<>();
-        BCryptPasswordEncoder decodePassword=new BCryptPasswordEncoder();
-        Admin admin=new Admin();
-      boolean matches=  decodePassword.matches(adminDTO.getPassword(),admin.getPassword());
-        Admin newAdmin=adminRepo.findByUserName(adminDTO.getUserName());
+        Admin newAdmin = adminRepo.findByUserName(adminDTO.getUserName());
+        if (newAdmin != null) {
+            BCryptPasswordEncoder decodePassword = new BCryptPasswordEncoder();
+            if (decodePassword.matches(adminDTO.getPassword(), newAdmin.getPassword()) ){
+                String token = this.jwtTokenGenerator.generateJwtToken(adminDTO);
+                response.put("token", token);
+            }else {
+                response.put("massage", "wrong Credentials");
+            }
 
-        if (newAdmin != null && !matches) {
-            String token = this.jwtTokenGenerator.generateJwtToken(adminDTO);
-            response.put("token", token);
         } else {
-            response.put("massage", "wrong Credentials");
+            response.put("massage", "Admin Not found");
         }
         return response;
     }
