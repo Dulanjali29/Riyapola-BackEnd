@@ -10,6 +10,7 @@ import lk.riyapola.riyapola.util.JWTTokenGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -85,18 +86,24 @@ public class AdminController {
     }
     @PostMapping("/login")
     public  ResponseEntity<HashMap<String,String>> adminLogin(@RequestBody AdminDTO adminDTO){
-        if(adminDTO != null){
-            HashMap<String,String> res=adminService.loginAdmin(adminDTO);
-            if(res!=null && !res.isEmpty()){
-                return  new ResponseEntity<>(res,HttpStatus.OK);
-            }else{
-                return  new ResponseEntity<>(res,HttpStatus.UNAUTHORIZED);
-            }
-        }else {
-            return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        BCryptPasswordEncoder decodePassword = new BCryptPasswordEncoder();
+        HashMap<String, String> response = new HashMap<>();
+
+        Admin adminByUserName = adminRepo.findAdminByUserName(adminDTO.getUserName());
+
+        String adminBypassword = adminRepo.passwordByUserName(adminDTO.getUserName());
+
+
+
+        if (adminByUserName!= null && decodePassword.matches(adminDTO.getPassword(), adminBypassword)) {
+            String token = this.jwtTokenGenerator.generateJwtToken(adminByUserName);
+            response.put("token", token);
+            return  new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            response.put("massage", "wrong Credentials");
+            return  new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
         }
-
-
     }
 
 

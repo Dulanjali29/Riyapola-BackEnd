@@ -88,23 +88,23 @@ private  final CustomerRepo customerRepo;
         return adminRepo.findAdminByFirstName(name);
     }
 
-    public HashMap<String, String> loginAdmin(AdminDTO adminDTO) {
-        HashMap<String, String> response = new HashMap<>();
-        Admin newAdmin = adminRepo.findByUserName(adminDTO.getUserName());
-        if (newAdmin != null) {
-            BCryptPasswordEncoder decodePassword = new BCryptPasswordEncoder();
-            if (decodePassword.matches(adminDTO.getPassword(), newAdmin.getPassword()) ){
-                String token = this.jwtTokenGenerator.generateJwtToken(adminDTO);
-                response.put("token", token);
-            }else {
-                response.put("massage", "wrong Credentials");
-            }
-
-        } else {
-            response.put("massage", "Admin Not found");
-        }
-        return response;
-    }
+//    public HashMap<String, String> loginAdmin(AdminDTO adminDTO) {
+//        HashMap<String, String> response = new HashMap<>();
+//        Admin newAdmin = adminRepo.findByUserNameAndPassword(adminDTO.getUserName());
+//        if (newAdmin != null) {
+//            BCryptPasswordEncoder decodePassword = new BCryptPasswordEncoder();
+//            if (decodePassword.matches(adminDTO.getPassword(), newAdmin.getPassword()) ){
+//                String token = this.jwtTokenGenerator.generateJwtToken(adminDTO);
+//                response.put("token", token);
+//            }else {
+//                response.put("massage", "wrong Credentials");
+//            }
+//
+//        } else {
+//            response.put("massage", "Admin Not found");
+//        }
+//        return response;
+//    }
     public List<Customer> getAllCustomers(){
         List<Customer> allCustomer=customerRepo.findAll();
         return  allCustomer;

@@ -4,7 +4,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import lk.riyapola.riyapola.dto.AdminDTO;
 import lk.riyapola.riyapola.dto.CustomerDTO;
 import lk.riyapola.riyapola.entity.Admin;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,7 +19,7 @@ public class JWTTokenGenerator {
     @Value("${riyapola.app.jwtExpirationMs}")
     private int jwtExpirationMs;
 
-    public String generateJwtToken(AdminDTO adminDTO) {
+    public String generateJwtToken(Admin adminDTO) {
         return Jwts.builder()
                 .setId(String.valueOf(adminDTO.getAdmin_id()))
                 .setSubject((adminDTO.getUserName()))

@@ -29,7 +29,7 @@ public class CustomerController {
         this.customerRepo = customerRepo;
     }
 
-    @PostMapping
+    @PostMapping("/customerRegister")
     public ResponseEntity<Customer> registerCustomer(@RequestBody CustomerDTO customerDTO) {
         Customer cus = customerService.registerCustomer(customerDTO);
         return new ResponseEntity<>(cus, HttpStatus.CREATED);

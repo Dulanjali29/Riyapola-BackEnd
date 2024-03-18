@@ -34,12 +34,7 @@ public class Customer {
         this.dateTime = dateTime;
     }
 
-    public Customer(Integer customer_id, String firstName, String lastName, String userName, String password, String dateTime) {
-        this.customer_id = customer_id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.userName = userName;
-        this.password = password;
-        this.dateTime = dateTime;
+
+    public Customer(Integer id, String firstName, String lastName, String userName, String password, String dateTime) {
     }
 }

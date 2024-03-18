@@ -7,6 +7,8 @@ import lk.riyapola.riyapola.entity.Customer;
 import lk.riyapola.riyapola.repo.CustomerRepo;
 import lk.riyapola.riyapola.util.JWTTokenGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Base64;
@@ -54,7 +56,8 @@ private  final JWTTokenGenerator jwtTokenGenerator;
         return byId.orElse(null);
     }
     public Customer searchCustomerByName(String name){
-      return customerRepo.findCustomerByFirstName(name);
+
+        return customerRepo.findCustomerByFirstName(name);
     }
     public HashMap<String, String> customerLogin(CustomerDTO customerDTO) {
         HashMap<String, String> response = new HashMap<>();
@@ -64,6 +67,8 @@ private  final JWTTokenGenerator jwtTokenGenerator;
             response.put("token", token);
         } else {
             response.put("massage", "wrong Credentials");
+
+
         }
         return response;
     }
