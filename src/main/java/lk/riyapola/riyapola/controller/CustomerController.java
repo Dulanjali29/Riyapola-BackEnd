@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/customer")
 public class CustomerController {
@@ -45,7 +45,7 @@ public class CustomerController {
         }
     }
 
-    @PutMapping("/{customerId}")
+    @PutMapping("customerUpdate/{customerId}")
     public ResponseEntity<Object> updateCustomer(@PathVariable Integer customerId, @RequestBody CustomerDTO customerDTO, @RequestHeader(name = "Authorization") String authorizationHeader) {
         if (jwtTokenGenerator.validateJwtToken(authorizationHeader)) {
             Customer customer = customerService.updateCustomer(customerId, customerDTO);
@@ -56,7 +56,7 @@ public class CustomerController {
 
     }
 
-    @DeleteMapping("/{customerId}")
+    @DeleteMapping("customerDelete/{customerId}")
     public ResponseEntity<Object> deleteCustomer(@PathVariable Integer customerId, @RequestHeader(name = "Authorization") String authorizationHeader) {
         if(jwtTokenGenerator.validateJwtToken(authorizationHeader)){
             String output = customerService.deleteCustomer(customerId);
