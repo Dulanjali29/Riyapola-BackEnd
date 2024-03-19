@@ -55,5 +55,13 @@ public class CarController {
         }
         return  new ResponseEntity<>("Invalid token By Admin",HttpStatus.FORBIDDEN);
     }
+    @DeleteMapping("/deleteCar/{carId}")
+    public ResponseEntity<Object> deleteCar(@PathVariable Integer carId ,@RequestHeader(name="Authorization") String authorizationHeader) {
+        if(jwtTokenGenerator.validateJwtToken(authorizationHeader)){
+            String deleted = carService.deleteCar(carId);
+            return new ResponseEntity<>(deleted, HttpStatus.OK);
+        }
+        return  new ResponseEntity<>("Invalid token By Admin",HttpStatus.FORBIDDEN);
+    }
 
 }

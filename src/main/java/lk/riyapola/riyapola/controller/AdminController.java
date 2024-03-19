@@ -52,16 +52,21 @@ public class AdminController {
     public ResponseEntity<Object> updateAdmin(@PathVariable Integer adminId, @RequestBody AdminDTO adminDTO,@RequestHeader(name="Authorization") String authorizationHeader) {
         if(jwtTokenGenerator.validateJwtToken(authorizationHeader)){
             Admin admin = adminService.updateAdmin(adminId, adminDTO);
-            return new ResponseEntity<>(admin, HttpStatus.OK);
+            return new ResponseEntity<>(admin, HttpStatus.CREATED);
         }
         return  new ResponseEntity<>("Invalid token By Admin",HttpStatus.FORBIDDEN);
     }
 
     @DeleteMapping("/deleteAdmin/{adminId}")
-    public ResponseEntity<String> deleteAdmin(@PathVariable Integer adminId) {
-        String output = adminService.deleteAdmin(adminId);
-        return new ResponseEntity<>(output, HttpStatus.CREATED);
+    public ResponseEntity<Object> deleteAdmin(@PathVariable Integer adminId ,@RequestHeader(name="Authorization") String authorizationHeader) {
+        if(jwtTokenGenerator.validateJwtToken(authorizationHeader)){
+            String deleted = adminService.deleteAdmin(adminId);
+            return new ResponseEntity<>(deleted, HttpStatus.OK);
+        }
+        return  new ResponseEntity<>("Invalid token By Admin",HttpStatus.FORBIDDEN);
     }
+
+
 
     @GetMapping("/search_admin/{adminId}")
     public ResponseEntity<Admin> searchAdmin(@PathVariable Integer adminId) {
@@ -93,7 +98,6 @@ public class AdminController {
         Admin adminByUserName = adminRepo.findAdminByUserName(adminDTO.getUserName());
 
         String adminBypassword = adminRepo.passwordByUserName(adminDTO.getUserName());
-
 
 
         if (adminByUserName!= null && decodePassword.matches(adminDTO.getPassword(), adminBypassword)) {

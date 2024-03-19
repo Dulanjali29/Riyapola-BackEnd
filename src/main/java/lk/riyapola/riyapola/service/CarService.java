@@ -63,4 +63,11 @@ public class CarService {
         }
 
     }
+    public String deleteCar(Integer id) {
+        if (carRepo.existsById(id)) {
+            carRepo.deleteById(id);
+            return "Car Deleted!";
+        }
+        return "No Car Found!";
+    }
 }
