@@ -1,5 +1,7 @@
 package lk.riyapola.riyapola.controller;
+import lk.riyapola.riyapola.dto.AdminDTO;
 import lk.riyapola.riyapola.dto.CarDTO;
+import lk.riyapola.riyapola.entity.Admin;
 import lk.riyapola.riyapola.entity.Car;
 import lk.riyapola.riyapola.service.CarService;
 import lk.riyapola.riyapola.util.JWTTokenGenerator;
@@ -45,4 +47,13 @@ public class CarController {
 
 
     }
+    @PutMapping("/updateCar/{carId}")
+    public ResponseEntity<Object> updateCar(@PathVariable Integer carId, @RequestBody CarDTO carDTO, @RequestHeader(name="Authorization") String authorizationHeader) {
+        if(jwtTokenGenerator.validateJwtToken(authorizationHeader)){
+            Car car = carService.updateCar(carId, carDTO);
+            return new ResponseEntity<>(car, HttpStatus.OK);
+        }
+        return  new ResponseEntity<>("Invalid token By Admin",HttpStatus.FORBIDDEN);
+    }
+
 }

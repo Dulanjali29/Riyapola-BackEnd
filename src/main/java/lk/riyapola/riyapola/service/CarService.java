@@ -8,6 +8,7 @@ import lk.riyapola.riyapola.repo.CarRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,5 +43,24 @@ public class CarService {
     public List<Car> getAllCar(){
        List <Car>allCar=carRepo.findAll();
        return  allCar;
+    }
+    public Car updateCar(Integer id, CarDTO carDTO) {
+
+        if (carRepo.existsById(id)) {
+            Car save=carRepo.save(new Car(
+                    id,
+                    carDTO.getBrand(),
+                    carDTO.getModel(),
+                    carDTO.getNoOfPassengers(),
+                    carDTO.getFuelType(),
+                    carDTO.getDailyRentalPrice(),
+                    carDTO.getStatus()
+            ));
+
+            return  save;
+        }else {
+            return null;
+        }
+
     }
 }
