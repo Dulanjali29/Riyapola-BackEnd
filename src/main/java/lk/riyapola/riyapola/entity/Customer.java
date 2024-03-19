@@ -33,8 +33,4 @@ public class Customer {
         this.password = password;
         this.dateTime = dateTime;
     }
-
-
-    public Customer(Integer id, String firstName, String lastName, String userName, String password, String dateTime) {
-    }
 }
