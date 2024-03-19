@@ -5,6 +5,7 @@ import lk.riyapola.riyapola.entity.Customer;
 import lk.riyapola.riyapola.repo.CustomerRepo;
 import lk.riyapola.riyapola.util.JWTTokenGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -24,12 +25,13 @@ private  final JWTTokenGenerator jwtTokenGenerator;
     }
 
     public Customer registerCustomer(CustomerDTO customerDTO) {
-
+        BCryptPasswordEncoder bCryptPasswordEncoder=new BCryptPasswordEncoder();
+        String encodePassword=bCryptPasswordEncoder.encode(customerDTO.getPassword());
         Customer save = customerRepo.save(new Customer(
                 customerDTO.getFirstName(),
                 customerDTO.getLastName(),
                 customerDTO.getUserName(),
-                customerDTO.getPassword(),
+                encodePassword,
                 customerDTO.getDateTime()
         ));
         return save;
