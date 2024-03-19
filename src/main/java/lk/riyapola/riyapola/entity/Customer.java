@@ -31,6 +31,6 @@ public class Customer {
         this.lastName = lastName;
         this.userName = userName;
         this.password = password;
-        this.dateTime = dateTime;
+        this.dateTime =String.valueOf(dateTime) ;
     }
 }

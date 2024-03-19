@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +29,12 @@ private  final JWTTokenGenerator jwtTokenGenerator;
     public Customer registerCustomer(CustomerDTO customerDTO) {
         BCryptPasswordEncoder bCryptPasswordEncoder=new BCryptPasswordEncoder();
         String encodePassword=bCryptPasswordEncoder.encode(customerDTO.getPassword());
+
+        LocalDateTime dateTime=LocalDateTime.now();
+        String CurrentDateTime=dateTime.format(DateTimeFormatter.ofPattern("dd-MM-yyy hh:mm:ss"));
+       customerDTO.setDateTime(CurrentDateTime);
+        System.out.println("Date & Time : "+customerDTO.getDateTime());
+
         Customer save = customerRepo.save(new Customer(
                 customerDTO.getFirstName(),
                 customerDTO.getLastName(),
