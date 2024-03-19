@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CarService {
     private final CarRepo carRepo;
@@ -36,5 +38,9 @@ public class CarService {
         }
 
         return null;
+    }
+    public List<Car> getAllCar(){
+       List <Car>allCar=carRepo.findAll();
+       return  allCar;
     }
 }
