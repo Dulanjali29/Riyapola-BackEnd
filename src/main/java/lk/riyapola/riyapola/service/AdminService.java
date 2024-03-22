@@ -94,6 +94,10 @@ private  final CustomerRepo customerRepo;
         return  allCustomer;
     }
     public String deleteCustomer(Integer id) {
-
+        if (customerRepo.existsById(id)) {
+            customerRepo.deleteById(id);
+            return "Customer Deleted!";
+        }
+        return "No Customer Found!";
     }
 }
