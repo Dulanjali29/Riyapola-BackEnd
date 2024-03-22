@@ -53,8 +53,8 @@ public class CarService {
                     carDTO.getBrand(),
                     carDTO.getModel(),
                     carDTO.getNoOfPassengers(),
-                    carDTO.getTransmissionMode(),
                     carDTO.getFuelType(),
+                    carDTO.getTransmissionMode(),
                     carDTO.getDailyRentalPrice(),
                     carDTO.getStatus()
             ));

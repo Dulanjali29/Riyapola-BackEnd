@@ -23,7 +23,7 @@ public class Car {
     private  String  model;
     private int noOfPassengers;
     private String fuelType;
-    private String TransmissionMode;
+    private String transmissionMode;
     private  double dailyRentalPrice;
     private String  status;
 
@@ -32,7 +32,7 @@ public class Car {
         this.model = model;
         this.noOfPassengers = noOfPassengers;
         this.fuelType = fuelType;
-        TransmissionMode = transmissionMode;
+        this.transmissionMode = transmissionMode;
         this.dailyRentalPrice = dailyRentalPrice;
         this.status = status;
     }

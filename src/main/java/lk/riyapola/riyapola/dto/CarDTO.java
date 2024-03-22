@@ -17,7 +17,7 @@ public class CarDTO {
     private  String  model;
     private int noOfPassengers;
     private String fuelType;
-    private String TransmissionMode;
+    private String transmissionMode;
     private  double dailyRentalPrice;
     private String  status;
 }
