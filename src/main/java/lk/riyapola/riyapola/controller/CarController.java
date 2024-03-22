@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @CrossOrigin
 @RestController
-@RequestMapping("admin/car")
+@RequestMapping("riyapola/car")
 
 public class CarController {
     private final CarService carService;
