@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 @CrossOrigin
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("riyapola/admin")
 public class AdminController {
     private final AdminService adminService;
     private final AdminRepo adminRepo;
