@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 @CrossOrigin
 @RestController
-@RequestMapping("/customer")
+@RequestMapping("riyapola/customer")
 public class CustomerController {
     private final CustomerService customerService;
     private final JWTTokenGenerator jwtTokenGenerator;
