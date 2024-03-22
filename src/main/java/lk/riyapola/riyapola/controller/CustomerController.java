@@ -10,6 +10,7 @@ import lk.riyapola.riyapola.util.JWTTokenGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -80,9 +81,23 @@ public class CustomerController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<HashMap<String, String>> customerLogin(@RequestBody CustomerDTO customerDTO) {
+    public  ResponseEntity<HashMap<String,String>> customerLogin(@RequestBody CustomerDTO customerDTO){
 
-        HashMap<String, String> res = customerService.customerLogin(customerDTO);
-        return new ResponseEntity<>(res, HttpStatus.CREATED);
+        BCryptPasswordEncoder decodePassword = new BCryptPasswordEncoder();
+        HashMap<String, String> response = new HashMap<>();
+
+        Customer customerByUserName = customerRepo.findCustomerByUserName(customerDTO.getUserName());
+
+        String customerBypassword = customerRepo.passwordByUserName(customerDTO.getUserName());
+
+
+        if (customerByUserName!= null && decodePassword.matches(customerDTO.getPassword(), customerBypassword)) {
+            String token = this.jwtTokenGenerator.generateJwtToken(customerByUserName);
+            response.put("token",token);
+            return  new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            response.put("massage", "wrong Credentials");
+            return  new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+        }
     }
 }

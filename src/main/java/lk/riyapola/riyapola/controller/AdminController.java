@@ -89,6 +89,15 @@ public class AdminController {
         }
 
     }
+    @DeleteMapping("/deleteCustomer/{customerId}")
+    public ResponseEntity<Object> deleteCustomer(@PathVariable Integer customerId ,@RequestHeader(name="Authorization") String authorizationHeader) {
+        if(jwtTokenGenerator.validateJwtToken(authorizationHeader)){
+            String deleteCustomer = adminService.deleteCustomer(customerId);
+            return new ResponseEntity<>(deleteCustomer, HttpStatus.OK);
+        }
+        return  new ResponseEntity<>("Invalid token By Admin",HttpStatus.FORBIDDEN);
+    }
+
     @PostMapping("/login")
     public  ResponseEntity<HashMap<String,String>> adminLogin(@RequestBody AdminDTO adminDTO){
 

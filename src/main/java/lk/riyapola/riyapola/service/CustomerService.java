@@ -49,6 +49,13 @@ private  final JWTTokenGenerator jwtTokenGenerator;
         return customerRepo.findAll();
     }
     public  Customer updateCustomer(Integer id,CustomerDTO customerDTO){
+        BCryptPasswordEncoder bCryptPasswordEncoder=new BCryptPasswordEncoder();
+        String encodePassword=bCryptPasswordEncoder.encode(customerDTO.getPassword());
+
+        LocalDateTime dateTime=LocalDateTime.now();
+        String CurrentDateTime=dateTime.format(DateTimeFormatter.ofPattern("dd-MM-yyy hh:mm:ss"));
+        customerDTO.setDateTime(CurrentDateTime);
+        System.out.println("Date & Time : "+customerDTO.getDateTime());
         if(customerRepo.existsById(id)){
            return  customerRepo.save(new Customer(
                     id,
@@ -80,17 +87,17 @@ private  final JWTTokenGenerator jwtTokenGenerator;
 
         return customerRepo.findCustomerByFirstName(name);
     }
-    public HashMap<String, String> customerLogin(CustomerDTO customerDTO) {
-        HashMap<String, String> response = new HashMap<>();
-        Customer customerByUsernameAndPassword = customerRepo.findByUserNameAndPassword(customerDTO.getUserName(), customerDTO.getPassword());
-        if (customerByUsernameAndPassword != null) {
-            String token = this.jwtTokenGenerator.generateJwtToken(customerDTO);
-            response.put("token", token);
-        } else {
-            response.put("massage", "wrong Credentials");
-
-
-        }
-        return response;
-    }
+//    public HashMap<String, String> customerLogin(CustomerDTO customerDTO) {
+//        HashMap<String, String> response = new HashMap<>();
+//        Customer customerByUsernameAndPassword = customerRepo.findByUserNameAndPassword(customerDTO.getUserName(), customerDTO.getPassword());
+//        if (customerByUsernameAndPassword != null) {
+//            String token = this.jwtTokenGenerator.generateJwtToken(customerDTO);
+//            response.put("token", token);
+//        } else {
+//            response.put("massage", "wrong Credentials");
+//
+//
+//        }
+//        return response;
+//    }
 }
