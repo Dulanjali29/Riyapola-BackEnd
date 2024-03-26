@@ -3,6 +3,7 @@ package lk.riyapola.riyapola.service;
 import lk.riyapola.riyapola.dto.CustomerDTO;
 import lk.riyapola.riyapola.entity.Car;
 import lk.riyapola.riyapola.entity.Customer;
+import lk.riyapola.riyapola.repo.CarRepo;
 import lk.riyapola.riyapola.repo.CustomerRepo;
 import lk.riyapola.riyapola.util.JWTTokenGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +19,15 @@ import java.util.Optional;
 @Service
 public class CustomerService {
     private final CustomerRepo customerRepo;
+    private final CarRepo carRepo;
 private  final JWTTokenGenerator jwtTokenGenerator;
     private Customer customerByFirstName;
 
     @Autowired
-    public CustomerService(CustomerRepo customerRepo, JWTTokenGenerator jwtTokenGenerator) {
+    public CustomerService(CustomerRepo customerRepo, CarRepo carRepo, JWTTokenGenerator jwtTokenGenerator) {
 
         this.customerRepo = customerRepo;
+        this.carRepo = carRepo;
         this.jwtTokenGenerator = jwtTokenGenerator;
     }
 
@@ -90,6 +93,7 @@ private  final JWTTokenGenerator jwtTokenGenerator;
         return customerByFirstName;
     }
     public List<Car> getAllCars(){
-
+List <Car> cars=carRepo.findAll();
+return  cars;
     }
 }
