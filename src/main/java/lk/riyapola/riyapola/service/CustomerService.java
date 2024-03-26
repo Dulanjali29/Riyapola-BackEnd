@@ -1,6 +1,7 @@
 package lk.riyapola.riyapola.service;
 
 import lk.riyapola.riyapola.dto.CustomerDTO;
+import lk.riyapola.riyapola.entity.Car;
 import lk.riyapola.riyapola.entity.Customer;
 import lk.riyapola.riyapola.repo.CustomerRepo;
 import lk.riyapola.riyapola.util.JWTTokenGenerator;
@@ -18,6 +19,7 @@ import java.util.Optional;
 public class CustomerService {
     private final CustomerRepo customerRepo;
 private  final JWTTokenGenerator jwtTokenGenerator;
+    private Customer customerByFirstName;
 
     @Autowired
     public CustomerService(CustomerRepo customerRepo, JWTTokenGenerator jwtTokenGenerator) {
@@ -31,7 +33,7 @@ private  final JWTTokenGenerator jwtTokenGenerator;
         String encodePassword=bCryptPasswordEncoder.encode(customerDTO.getPassword());
 
         LocalDateTime dateTime=LocalDateTime.now();
-        String CurrentDateTime=dateTime.format(DateTimeFormatter.ofPattern("dd-MM-yyy hh:mm:ss"));
+        String CurrentDateTime=dateTime.format(DateTimeFormatter.ofPattern("dd-MM-yyy hh:mm:ss a "));
        customerDTO.setDateTime(CurrentDateTime);
         System.out.println("Date & Time : "+customerDTO.getDateTime());
 
@@ -53,7 +55,7 @@ private  final JWTTokenGenerator jwtTokenGenerator;
         String encodePassword=bCryptPasswordEncoder.encode(customerDTO.getPassword());
 
         LocalDateTime dateTime=LocalDateTime.now();
-        String CurrentDateTime=dateTime.format(DateTimeFormatter.ofPattern("dd-MM-yyy hh:mm:ss"));
+        String CurrentDateTime=dateTime.format(DateTimeFormatter.ofPattern("dd-MM-yyy hh:mm:ss a"));
         customerDTO.setDateTime(CurrentDateTime);
         System.out.println("Date & Time : "+customerDTO.getDateTime());
         if(customerRepo.existsById(id)){
@@ -85,19 +87,9 @@ private  final JWTTokenGenerator jwtTokenGenerator;
     }
     public Customer searchCustomerByName(String name){
 
-        return customerRepo.findCustomerByFirstName(name);
+        return customerByFirstName;
     }
-//    public HashMap<String, String> customerLogin(CustomerDTO customerDTO) {
-//        HashMap<String, String> response = new HashMap<>();
-//        Customer customerByUsernameAndPassword = customerRepo.findByUserNameAndPassword(customerDTO.getUserName(), customerDTO.getPassword());
-//        if (customerByUsernameAndPassword != null) {
-//            String token = this.jwtTokenGenerator.generateJwtToken(customerDTO);
-//            response.put("token", token);
-//        } else {
-//            response.put("massage", "wrong Credentials");
-//
-//
-//        }
-//        return response;
-//    }
+    public List<Car> getAllCars(){
+
+    }
 }

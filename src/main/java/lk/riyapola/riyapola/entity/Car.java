@@ -21,13 +21,13 @@ public class Car {
     private Integer car_id;
     private String brand;
     private  String  model;
-    private int noOfPassengers;
+    private String noOfPassengers;
     private String fuelType;
     private String transmissionMode;
     private  double dailyRentalPrice;
     private String  status;
 
-    public Car(String brand, String model, int noOfPassengers, String fuelType, String transmissionMode, double dailyRentalPrice, String status) {
+    public Car(String brand, String model, String noOfPassengers, String fuelType, String transmissionMode, double dailyRentalPrice, String status) {
         this.brand = brand;
         this.model = model;
         this.noOfPassengers = noOfPassengers;

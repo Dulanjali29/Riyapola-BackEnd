@@ -65,7 +65,11 @@ private  final CustomerRepo customerRepo;
                 newpassword=enPassword;
             }
 
-            return adminRepo.save(new Admin(id, adminDTO.getFirstName(), adminDTO.getLastName(), adminDTO.getUserName(), newpassword, adminDTO.getRole()));
+            return adminRepo.save(new Admin(id,
+                    adminDTO.getFirstName(),
+                    adminDTO.getLastName(), adminDTO.getUserName(),
+                    newpassword,
+                    adminDTO.getRole()));
         }
         return null;
     }

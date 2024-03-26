@@ -3,6 +3,7 @@ package lk.riyapola.riyapola.controller;
 import lk.riyapola.riyapola.dto.AdminDTO;
 import lk.riyapola.riyapola.dto.CustomerDTO;
 import lk.riyapola.riyapola.entity.Admin;
+import lk.riyapola.riyapola.entity.Car;
 import lk.riyapola.riyapola.entity.Customer;
 import lk.riyapola.riyapola.repo.CustomerRepo;
 import lk.riyapola.riyapola.service.CustomerService;
@@ -79,7 +80,15 @@ public class CustomerController {
         Customer customer = customerService.searchCustomerByName(customerName);
         return new ResponseEntity<>(customer, HttpStatus.OK);
     }
-
+@GetMapping("/getAllCars")
+public ResponseEntity<Object> getAllCars(){
+        try {
+          List<Car> allCars=customerService.getAllCars();
+          return  new ResponseEntity<>(allCars,HttpStatus.OK);
+        }catch (Exception e){
+            return  new ResponseEntity<>("No Cars",HttpStatus.FORBIDDEN);
+        }
+}
     @PostMapping("/login")
     public  ResponseEntity<HashMap<String,String>> customerLogin(@RequestBody CustomerDTO customerDTO){
 

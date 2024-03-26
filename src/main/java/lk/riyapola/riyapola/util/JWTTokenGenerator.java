@@ -44,7 +44,7 @@ public class JWTTokenGenerator {
 
 
     public boolean validateJwtToken(String authToken) {
-        String jwtToken = authToken.substring("Bearer ".length());
+        String jwtToken = authToken.substring("Bearer".length());
         try {
             Jwts.parserBuilder().setSigningKey(key()).build().parse(jwtToken);
             return true;
