@@ -93,7 +93,11 @@ private  final JWTTokenGenerator jwtTokenGenerator;
         return customerByFirstName;
     }
     public List<Car> getAllCars(){
-List <Car> cars=carRepo.findAll();
-return  cars;
+    List <Car> cars=carRepo.findAll();
+    return  cars;
+    }
+    public List<Car> getAllCarByRegisterdCus(){
+        List <Car> cars=carRepo.findAll();
+        return  cars;
     }
 }

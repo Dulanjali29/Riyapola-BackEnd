@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 @CrossOrigin
 @RestController
 @RequestMapping("riyapola/customer")
@@ -80,17 +82,19 @@ public class CustomerController {
         Customer customer = customerService.searchCustomerByName(customerName);
         return new ResponseEntity<>(customer, HttpStatus.OK);
     }
-@GetMapping("/getAllCars")
-public ResponseEntity<Object> getAllCars(){
-        try {
-          List<Car> allCars=customerService.getAllCars();
-          return  new ResponseEntity<>(allCars,HttpStatus.OK);
-        }catch (Exception e){
-            return  new ResponseEntity<>("No Cars",HttpStatus.FORBIDDEN);
+
+    @GetMapping("/registerdCustomer/getAllCars")
+    public ResponseEntity<Object> getAllCars(@RequestHeader(name = "Authorization") String authorizationHeader) {
+        if (jwtTokenGenerator.validateJwtToken(authorizationHeader)) {
+            List<Car> allCar = customerService.getAllCarByRegisterdCus();
+            return new ResponseEntity<>(allCar, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Invalid token By Customer", HttpStatus.FORBIDDEN);
         }
-}
-    @PostMapping("/login")
-    public  ResponseEntity<HashMap<String,String>> customerLogin(@RequestBody CustomerDTO customerDTO){
+    }
+
+        @PostMapping("/login")
+    public  ResponseEntity<Map<String,String>> customerLogin(@RequestBody CustomerDTO customerDTO){
 
         BCryptPasswordEncoder decodePassword = new BCryptPasswordEncoder();
         HashMap<String, String> response = new HashMap<>();
@@ -99,14 +103,16 @@ public ResponseEntity<Object> getAllCars(){
 
         String customerBypassword = customerRepo.passwordByUserName(customerDTO.getUserName());
 
-
         if (customerByUserName!= null && decodePassword.matches(customerDTO.getPassword(), customerBypassword)) {
             String token = this.jwtTokenGenerator.generateJwtToken(customerByUserName);
             response.put("token",token);
+            response.put("customerId", String.valueOf(customerByUserName.getCustomer_id()));
+
             return  new ResponseEntity<>(response, HttpStatus.OK);
         } else {
+
             response.put("massage", "wrong Credentials");
-            return  new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(response,HttpStatus.FORBIDDEN);
         }
     }
 }

@@ -7,6 +7,7 @@ import io.jsonwebtoken.security.Keys;
 
 import lk.riyapola.riyapola.entity.Admin;
 import lk.riyapola.riyapola.entity.Customer;
+import lk.riyapola.riyapola.repo.CustomerRepo;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -15,10 +16,15 @@ import java.util.Date;
 
 @Component
 public class JWTTokenGenerator {
+    final CustomerRepo customerRepo;
     @Value("${riyapola.app.jwtSecret}")
     private String jwtSecret;
     @Value("${riyapola.app.jwtExpirationMs}")
     private int jwtExpirationMs;
+
+    public JWTTokenGenerator(CustomerRepo customerRepo) {
+        this.customerRepo = customerRepo;
+    }
 
     public String generateJwtToken(Admin adminDTO) {
         return Jwts.builder()
@@ -54,4 +60,5 @@ public class JWTTokenGenerator {
 
         return false;
     }
+
 }

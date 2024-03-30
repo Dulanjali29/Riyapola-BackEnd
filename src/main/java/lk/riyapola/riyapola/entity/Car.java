@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @Data
@@ -26,14 +27,18 @@ public class Car {
     private String transmissionMode;
     private  double dailyRentalPrice;
     private String  status;
+    private  String carName;
 
-    public Car(String brand, String model, String noOfPassengers, String fuelType, String transmissionMode, double dailyRentalPrice, String status) {
+
+
+    public Car(String brand, String model, String noOfPassengers, String fuelType, String transmissionMode, double dailyRentalPrice, String status, String carName) {
         this.brand = brand;
-        this.model = model;
-        this.noOfPassengers = noOfPassengers;
-        this.fuelType = fuelType;
-        this.transmissionMode = transmissionMode;
-        this.dailyRentalPrice = dailyRentalPrice;
-        this.status = status;
+        this.model=model;
+        this.noOfPassengers=noOfPassengers;
+        this.fuelType=fuelType;
+        this.transmissionMode=transmissionMode;
+        this.dailyRentalPrice=dailyRentalPrice;
+        this.status=status;
+        this.carName=carName;
     }
 }
