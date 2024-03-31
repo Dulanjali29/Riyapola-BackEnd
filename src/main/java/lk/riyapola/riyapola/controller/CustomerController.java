@@ -70,15 +70,7 @@ public class CustomerController {
         }
 
     }
-    @GetMapping("/getCustomerDetails")
-    public ResponseEntity<Object> getCustomerDetails(@RequestHeader(name = "Authorization") String authorizationHeader) {
-        if (jwtTokenGenerator.validateJwtToken(authorizationHeader)) {
-            Customer customerJwtToken = jwtTokenGenerator.getCustomerFromJwtToken(authorizationHeader);
-            return new ResponseEntity<>(customerJwtToken, HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>("Token Invalid  ", HttpStatus.UNAUTHORIZED);
-        }
-    }
+
     @GetMapping("/search_customer/{customerId}")
     public ResponseEntity<Customer> searchCustomerById(@PathVariable Integer customerId) {
         Customer customer = customerService.searchCustomerById(customerId);
@@ -99,18 +91,6 @@ public ResponseEntity<Object> getAllCars(){
             return  new ResponseEntity<>("No Cars",HttpStatus.FORBIDDEN);
         }
   }
-    @DeleteMapping ("/deleteCustomerById")
-    public ResponseEntity<Object> deletecustomerById(@RequestHeader(name = "Authorization") String authorizationHeader){
-        if(jwtTokenGenerator.validateJwtToken(authorizationHeader)){
-          Customer customerIdFromJwtToken=jwtTokenGenerator.getCustomerFromJwtToken(authorizationHeader);
-          String deleteCustomer=customerService.deleteCustomerDetail(customerIdFromJwtToken);
-          return new ResponseEntity<>(deleteCustomer,HttpStatus.CREATED);
-        }else {
-            return  new ResponseEntity<>("Invalid customer token to get customer Details",HttpStatus.UNAUTHORIZED);
-        }
-
-    }
-
     @GetMapping("/registerdCustomer/getAllCars")
     public ResponseEntity<Object> getAllCars(@RequestHeader(name = "Authorization") String authorizationHeader) {
         if (jwtTokenGenerator.validateJwtToken(authorizationHeader)) {
@@ -119,6 +99,27 @@ public ResponseEntity<Object> getAllCars(){
         } else {
             return new ResponseEntity<>("Invalid token By Customer", HttpStatus.FORBIDDEN);
         }
+    }
+
+    @GetMapping("/getCustomerDetails")
+    public ResponseEntity<Object> getCustomerDetails(@RequestHeader(name = "Authorization") String authorizationHeader) {
+        if (jwtTokenGenerator.validateJwtToken(authorizationHeader)) {
+            Customer customerJwtToken = jwtTokenGenerator.getCustomerFromJwtToken(authorizationHeader);
+            return new ResponseEntity<>(customerJwtToken, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>("Token Invalid  ", HttpStatus.UNAUTHORIZED);
+        }
+    }
+    @DeleteMapping ("/deleteCustomerById")
+    public ResponseEntity<Object> deletecustomerById(@RequestHeader(name = "Authorization") String authorizationHeader){
+        if(jwtTokenGenerator.validateJwtToken(authorizationHeader)){
+            Customer customerIdFromJwtToken=jwtTokenGenerator.getCustomerFromJwtToken(authorizationHeader);
+            String deleteCustomer=customerService.deleteCustomerDetail(customerIdFromJwtToken);
+            return new ResponseEntity<>(deleteCustomer,HttpStatus.CREATED);
+        }else {
+            return  new ResponseEntity<>("Invalid customer token to get customer Details",HttpStatus.UNAUTHORIZED);
+        }
+
     }
 
         @PostMapping("/login")
