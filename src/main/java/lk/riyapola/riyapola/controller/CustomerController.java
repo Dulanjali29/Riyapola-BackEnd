@@ -70,7 +70,15 @@ public class CustomerController {
         }
 
     }
-
+    @GetMapping("/getCustomerDetails")
+    public ResponseEntity<Object> getCustomerDetails(@RequestHeader(name = "Authorization") String authorizationHeader) {
+        if (jwtTokenGenerator.validateJwtToken(authorizationHeader)) {
+            Customer customerJwtToken = jwtTokenGenerator.getCustomerFromJwtToken(authorizationHeader);
+            return new ResponseEntity<>(customerJwtToken, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>("Token Invalid  ", HttpStatus.UNAUTHORIZED);
+        }
+    }
     @GetMapping("/search_customer/{customerId}")
     public ResponseEntity<Customer> searchCustomerById(@PathVariable Integer customerId) {
         Customer customer = customerService.searchCustomerById(customerId);
@@ -82,6 +90,15 @@ public class CustomerController {
         Customer customer = customerService.searchCustomerByName(customerName);
         return new ResponseEntity<>(customer, HttpStatus.OK);
     }
+@GetMapping("/getAllCars")
+public ResponseEntity<Object> getAllCars(){
+        try {
+          List<Car> allCars=customerService.getAllCars();
+          return  new ResponseEntity<>(allCars,HttpStatus.OK);
+        }catch (Exception e){
+            return  new ResponseEntity<>("No Cars",HttpStatus.FORBIDDEN);
+        }
+  }
 
     @GetMapping("/registerdCustomer/getAllCars")
     public ResponseEntity<Object> getAllCars(@RequestHeader(name = "Authorization") String authorizationHeader) {
@@ -106,7 +123,7 @@ public class CustomerController {
         if (customerByUserName!= null && decodePassword.matches(customerDTO.getPassword(), customerBypassword)) {
             String token = this.jwtTokenGenerator.generateJwtToken(customerByUserName);
             response.put("token",token);
-            response.put("customerId", String.valueOf(customerByUserName.getCustomer_id()));
+
 
             return  new ResponseEntity<>(response, HttpStatus.OK);
         } else {

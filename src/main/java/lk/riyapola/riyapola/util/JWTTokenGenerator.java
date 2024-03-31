@@ -8,6 +8,7 @@ import io.jsonwebtoken.security.Keys;
 import lk.riyapola.riyapola.entity.Admin;
 import lk.riyapola.riyapola.entity.Customer;
 import lk.riyapola.riyapola.repo.CustomerRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -21,8 +22,9 @@ public class JWTTokenGenerator {
     private String jwtSecret;
     @Value("${riyapola.app.jwtExpirationMs}")
     private int jwtExpirationMs;
-
+@Autowired
     public JWTTokenGenerator(CustomerRepo customerRepo) {
+
         this.customerRepo = customerRepo;
     }
 
@@ -35,6 +37,7 @@ public class JWTTokenGenerator {
                 .signWith(key(), SignatureAlgorithm.HS256)
                 .compact();
     }
+
     public String generateJwtToken(Customer customerDTO) {
         return Jwts.builder()
                 .setId(String.valueOf(customerDTO.getCustomer_id()))
@@ -44,6 +47,7 @@ public class JWTTokenGenerator {
                 .signWith(key(), SignatureAlgorithm.HS256)
                 .compact();
     }
+
     private Key key() {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
     }
@@ -61,4 +65,10 @@ public class JWTTokenGenerator {
         return false;
     }
 
+    public Customer getCustomerFromJwtToken(String token) {
+        String jwtToken = token.substring("Bearer".length());
+        String id = Jwts.parserBuilder().setSigningKey(key()).build().parseClaimsJwt(jwtToken).getBody().getId();
+        Integer customerId = Integer.parseInt(id);
+        return customerRepo.getCustomerByCustomerId(customerId);
+    }
 }
