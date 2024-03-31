@@ -100,4 +100,12 @@ private  final JWTTokenGenerator jwtTokenGenerator;
         List <Car> cars=carRepo.findAll();
         return  cars;
     }
+    public String deleteCustomerDetail(Customer customerIdFromJwtToken){
+        if(customerRepo.existsById(customerIdFromJwtToken.getCustomer_id())){
+            customerRepo.deleteById(customerIdFromJwtToken.getCustomer_id());
+            return "customer details delete successful!";
+        }else {
+            return "Customer Id"+customerIdFromJwtToken.getCustomer_id()+"not found";
+        }
+    }
 }
