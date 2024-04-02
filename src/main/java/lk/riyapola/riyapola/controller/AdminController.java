@@ -1,6 +1,7 @@
 package lk.riyapola.riyapola.controller;
 
 import lk.riyapola.riyapola.dto.AdminDTO;
+import lk.riyapola.riyapola.dto.CustomerDTO;
 import lk.riyapola.riyapola.entity.Admin;
 import lk.riyapola.riyapola.entity.Customer;
 import lk.riyapola.riyapola.repo.AdminRepo;
@@ -99,24 +100,14 @@ public class AdminController {
     }
 
     @PostMapping("/login")
-    public  ResponseEntity<HashMap<String,String>> adminLogin(@RequestBody AdminDTO adminDTO){
-
-        BCryptPasswordEncoder decodePassword = new BCryptPasswordEncoder();
-        HashMap<String, String> response = new HashMap<>();
-
-        Admin adminByUserName = adminRepo.findAdminByUserName(adminDTO.getUserName());
-
-        String adminBypassword = adminRepo.passwordByUserName(adminDTO.getUserName());
-
-
-        if (adminByUserName!= null && decodePassword.matches(adminDTO.getPassword(), adminBypassword)) {
-            String token = this.jwtTokenGenerator.generateJwtToken(adminByUserName);
-            response.put("token", token);
-            return  new ResponseEntity<>(response, HttpStatus.OK);
-        } else {
-            response.put("massage", "wrong Credentials");
-            return  new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+    public  ResponseEntity<Object> adminLogin(@RequestBody AdminDTO adminDTO){
+        try {
+            HashMap<String,String> loginAdmin= adminService.loginAdmin(adminDTO);
+            return  new ResponseEntity<>(loginAdmin,HttpStatus.CREATED);
+        }catch (Exception e){
+            return  new ResponseEntity<>(e,HttpStatus.FORBIDDEN);
         }
+
     }
 
 

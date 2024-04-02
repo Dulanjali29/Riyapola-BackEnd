@@ -132,7 +132,7 @@ public ResponseEntity<Object> getAllCars(){
         }
 
     }
-        @PostMapping("/login")
+    @PostMapping("/login")
     public  ResponseEntity<Object> customerLogin(@RequestBody CustomerDTO customerDTO){
         try {
             HashMap<String,String> loginCustomer= customerService.loginCustomer(customerDTO);
@@ -141,30 +141,5 @@ public ResponseEntity<Object> getAllCars(){
             return  new ResponseEntity<>(e,HttpStatus.FORBIDDEN);
         }
 
-
-
-
-
-
-
-
-
-//        BCryptPasswordEncoder decodePassword = new BCryptPasswordEncoder();
-//        HashMap<String, String> response = new HashMap<>();
-//
-//        Customer customerByUserName = customerRepo.findCustomerByUserName(customerDTO.getUserName());
-//
-//        String customerBypassword = customerRepo.passwordByUserName(customerDTO.getUserName());
-//
-//        if (customerByUserName!= null && decodePassword.matches(customerDTO.getPassword(), customerBypassword)) {
-//            String token = this.jwtTokenGenerator.generateJwtToken(customerByUserName);
-//            response.put("token",token);
-//
-//            return  new ResponseEntity<>(response, HttpStatus.OK);
-//        } else {
-//
-//            response.put("massage", "wrong Credentials");
-//            return new ResponseEntity<>(response,HttpStatus.FORBIDDEN);
-//        }
     }
 }

@@ -1,6 +1,7 @@
 package lk.riyapola.riyapola.service;
 
 import lk.riyapola.riyapola.dto.AdminDTO;
+import lk.riyapola.riyapola.dto.CustomerDTO;
 import lk.riyapola.riyapola.entity.Admin;
 import lk.riyapola.riyapola.entity.Customer;
 import lk.riyapola.riyapola.repo.AdminRepo;
@@ -103,5 +104,24 @@ private  final CustomerRepo customerRepo;
             return "Customer Deleted!";
         }
         return "No Customer Found!";
+    }
+
+    public HashMap<String,String> loginAdmin(AdminDTO adminDTO){
+        HashMap<String,String> response=new HashMap<>();
+        BCryptPasswordEncoder passwordEncoder=new BCryptPasswordEncoder();
+        List<Admin> allByAdminName=adminRepo.findAdminByUserName(adminDTO.getUserName());
+
+        for(Admin admin: allByAdminName){
+            boolean match=  passwordEncoder.matches(adminDTO.getPassword(),admin.getPassword());
+            if(match){
+                String token=this.jwtTokenGenerator.generateJwtToken(admin);
+                response.put("token",token);
+                return  response;
+            }else {
+                response.put("massage","Admin Token Generated failed !");
+
+            }
+        }
+        return  response;
     }
 }
