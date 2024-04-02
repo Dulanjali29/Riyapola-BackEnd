@@ -20,7 +20,7 @@ import java.util.Map;
 
 @CrossOrigin
 @RestController
-@RequestMapping("riyapola/customer")
+@RequestMapping("/riyapola/customer")
 public class CustomerController {
     private final CustomerService customerService;
     private final JWTTokenGenerator jwtTokenGenerator;
@@ -121,27 +121,50 @@ public ResponseEntity<Object> getAllCars(){
         }
 
     }
-
-        @PostMapping("/login")
-    public  ResponseEntity<Map<String,String>> customerLogin(@RequestBody CustomerDTO customerDTO){
-
-        BCryptPasswordEncoder decodePassword = new BCryptPasswordEncoder();
-        HashMap<String, String> response = new HashMap<>();
-
-        Customer customerByUserName = customerRepo.findCustomerByUserName(customerDTO.getUserName());
-
-        String customerBypassword = customerRepo.passwordByUserName(customerDTO.getUserName());
-
-        if (customerByUserName!= null && decodePassword.matches(customerDTO.getPassword(), customerBypassword)) {
-            String token = this.jwtTokenGenerator.generateJwtToken(customerByUserName);
-            response.put("token",token);
-
-
-            return  new ResponseEntity<>(response, HttpStatus.OK);
+    @PutMapping("/customerUpdateById")
+    public ResponseEntity<Object> updateCustomerById( @RequestBody CustomerDTO customerDTO, @RequestHeader(name = "Authorization") String authorizationHeader) {
+        if (jwtTokenGenerator.validateJwtToken(authorizationHeader)) {
+            Customer customerFromJwtToken=jwtTokenGenerator.getCustomerFromJwtToken(authorizationHeader);
+            Customer customerUpdate = customerService.updateCustomerById(customerFromJwtToken, customerDTO);
+            return new ResponseEntity<>(customerUpdate, HttpStatus.CREATED);
         } else {
-
-            response.put("massage", "wrong Credentials");
-            return new ResponseEntity<>(response,HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("Invalid token By Customer", HttpStatus.FORBIDDEN);
         }
+
+    }
+        @PostMapping("/login")
+    public  ResponseEntity<Object> customerLogin(@RequestBody CustomerDTO customerDTO){
+        try {
+            HashMap<String,String> loginCustomer= customerService.loginCustomer(customerDTO);
+            return  new ResponseEntity<>(loginCustomer,HttpStatus.CREATED);
+        }catch (Exception e){
+            return  new ResponseEntity<>(e,HttpStatus.FORBIDDEN);
+        }
+
+
+
+
+
+
+
+
+
+//        BCryptPasswordEncoder decodePassword = new BCryptPasswordEncoder();
+//        HashMap<String, String> response = new HashMap<>();
+//
+//        Customer customerByUserName = customerRepo.findCustomerByUserName(customerDTO.getUserName());
+//
+//        String customerBypassword = customerRepo.passwordByUserName(customerDTO.getUserName());
+//
+//        if (customerByUserName!= null && decodePassword.matches(customerDTO.getPassword(), customerBypassword)) {
+//            String token = this.jwtTokenGenerator.generateJwtToken(customerByUserName);
+//            response.put("token",token);
+//
+//            return  new ResponseEntity<>(response, HttpStatus.OK);
+//        } else {
+//
+//            response.put("massage", "wrong Credentials");
+//            return new ResponseEntity<>(response,HttpStatus.FORBIDDEN);
+//        }
     }
 }

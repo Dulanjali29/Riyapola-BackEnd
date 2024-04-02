@@ -108,4 +108,44 @@ private  final JWTTokenGenerator jwtTokenGenerator;
             return "Customer Id"+customerIdFromJwtToken.getCustomer_id()+"not found";
         }
     }
+    public Customer updateCustomerById(Customer customerFromJwtToken,CustomerDTO customerDTO){
+        if(customerRepo.existsById(Integer.valueOf(customerFromJwtToken.getCustomer_id()))){
+         Customer customer=customerRepo.findById(customerFromJwtToken.getCustomer_id()).orElse(null);
+         if(customer!=null){
+             customer.setFirstName(customerDTO.getFirstName());
+             customer.setLastName(customerDTO.getLastName());
+             customer.setNic(customerDTO.getNic());
+             customer.setAddress(customerDTO.getAddress());
+             customer.setContact(customerDTO.getContact());
+             customer.setEmail(customerDTO.getEmail());
+             customer.setDateTime(customerFromJwtToken.getDateTime());
+             System.out.println(customerFromJwtToken.getDateTime());
+             customerRepo.save(customer);
+             return  customer;
+
+            } else {
+             System.out.println("Customer with id not found ");
+         }
+
+        }
+        return  null;
+    }
+    public HashMap<String,String> loginCustomer(CustomerDTO customerDTO){
+    HashMap<String,String> response=new HashMap<>();
+    BCryptPasswordEncoder passwordEncoder=new BCryptPasswordEncoder();
+    List<Customer> allByCustomerName=customerRepo.findCustomerByUserName(customerDTO.getUserName());
+
+    for(Customer customer: allByCustomerName){
+      boolean match=  passwordEncoder.matches(customerDTO.getPassword(),customer.getPassword());
+      if(match){
+          String token=this.jwtTokenGenerator.generateJwtToken(customer);
+          response.put("token",token);
+          return  response;
+      }else {
+          response.put("massage","Customer Token Generated failed !");
+
+      }
+    }
+    return  response;
+    }
 }
