@@ -31,7 +31,7 @@ public class CarService {
 
         uploadDir.mkdir();
 
-        carDTO.getCarName().transferTo(new File(uploadDir.getAbsolutePath() + "/" + carDTO.getCarName().getOriginalFilename()));
+        carDTO.getImage().transferTo(new File(uploadDir.getAbsolutePath() + "/" + carDTO.getImage().getOriginalFilename()));
 
         Car car =new Car(
                 carDTO.getBrand(),
@@ -41,9 +41,9 @@ public class CarService {
                 carDTO.getTransmissionMode(),
                 carDTO.getDailyRentalPrice(),
                 carDTO.getStatus(),
-                carDTO.getCarName().getOriginalFilename());
+                carDTO.getImage().getOriginalFilename());
 
-        car.setCarName("uploads/" +carDTO.getCarName().getOriginalFilename());
+        car.setCarName("uploads/" +carDTO.getImage().getOriginalFilename());
 
         Car carNew = carRepo.save(car);
         System.out.println(carNew);

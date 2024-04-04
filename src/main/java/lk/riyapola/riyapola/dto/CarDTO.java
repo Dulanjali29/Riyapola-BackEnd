@@ -21,9 +21,9 @@ public class CarDTO {
     private String transmissionMode;
     private  double dailyRentalPrice;
     private String  status;
-    private MultipartFile carName;
+    private MultipartFile image;
 
-    public CarDTO(String brand, String model, String noOfPassengers, String fuelType, String transmissionMode, double dailyRentalPrice, String status,MultipartFile carName) {
+    public CarDTO(String brand, String model, String noOfPassengers, String fuelType, String transmissionMode, double dailyRentalPrice, String status,MultipartFile image) {
         this.brand = brand;
         this.model = model;
         this.noOfPassengers = noOfPassengers;
@@ -31,6 +31,6 @@ public class CarDTO {
         this.transmissionMode = transmissionMode;
         this.dailyRentalPrice = dailyRentalPrice;
         this.status = status;
-        this.carName=carName;
+        this.image=image;
     }
 }
