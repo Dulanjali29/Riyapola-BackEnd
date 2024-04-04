@@ -130,6 +130,27 @@ private  final JWTTokenGenerator jwtTokenGenerator;
         }
         return  null;
     }
+    public Customer updateCustomerUserNamePasswordById(Customer customerFromJwtToken,CustomerDTO customerDTO){
+
+        BCryptPasswordEncoder bCryptPasswordEncoder=new BCryptPasswordEncoder();
+        String encodePassword=bCryptPasswordEncoder.encode(customerDTO.getPassword());
+
+        if(customerRepo.existsById(customerFromJwtToken.getCustomer_id())){
+            Customer customer=customerRepo.findById(customerFromJwtToken.getCustomer_id()).orElse(null);
+            if(customer!=null){
+                customer.setUserName(customerDTO.getUserName());
+                customer.setPassword(encodePassword);
+                System.out.println(customerFromJwtToken.getDateTime());
+                customerRepo.save(customer);
+                return  customer;
+
+            } else {
+                System.out.println("Customer with id not found ");
+            }
+
+        }
+        return  null;
+    }
     public HashMap<String,String> loginCustomer(CustomerDTO customerDTO){
     HashMap<String,String> response=new HashMap<>();
     BCryptPasswordEncoder passwordEncoder=new BCryptPasswordEncoder();

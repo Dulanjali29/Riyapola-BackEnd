@@ -1,8 +1,6 @@
 package lk.riyapola.riyapola.controller;
-import lk.riyapola.riyapola.dto.AdminDTO;
 import lk.riyapola.riyapola.dto.CarDTO;
-import lk.riyapola.riyapola.dto.CarDetailsGetDto;
-import lk.riyapola.riyapola.entity.Admin;
+import lk.riyapola.riyapola.dto.CarImgSavetDto;
 import lk.riyapola.riyapola.entity.Car;
 import lk.riyapola.riyapola.service.CarService;
 import lk.riyapola.riyapola.util.JWTTokenGenerator;
@@ -31,7 +29,7 @@ public class CarController {
     @PostMapping("/carRegister")
     public ResponseEntity<Object> registerCar(@ModelAttribute CarDTO carDTO, @RequestHeader(name = "Authorization") String authorizationHeader) throws URISyntaxException, IOException {
         if (jwtTokenGenerator.validateJwtToken(authorizationHeader)) {
-            CarDetailsGetDto carDetailsGetDto = carService.saveCar(carDTO);
+            CarImgSavetDto carDetailsGetDto = carService.saveCar(carDTO);
             return new ResponseEntity<>(carDetailsGetDto, HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>("Invalid token By Admin", HttpStatus.FORBIDDEN);

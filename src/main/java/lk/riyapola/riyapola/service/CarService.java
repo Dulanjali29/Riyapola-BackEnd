@@ -1,15 +1,12 @@
 package lk.riyapola.riyapola.service;
 
-import lk.riyapola.riyapola.dto.AdminDTO;
 import lk.riyapola.riyapola.dto.CarDTO;
-import lk.riyapola.riyapola.dto.CarDetailsGetDto;
-import lk.riyapola.riyapola.entity.Admin;
+import lk.riyapola.riyapola.dto.CarImgSavetDto;
 import lk.riyapola.riyapola.entity.Car;
 import lk.riyapola.riyapola.repo.CarRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -27,7 +24,7 @@ public class CarService {
     }
 
 
-    public CarDetailsGetDto saveCar(CarDTO carDTO) throws URISyntaxException, IOException {
+    public CarImgSavetDto saveCar(CarDTO carDTO) throws URISyntaxException, IOException {
 
         String projectPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile().getParentFile().getAbsolutePath();
         File uploadDir = new File(projectPath + "/src/main/resources/static/uploads");
@@ -36,7 +33,8 @@ public class CarService {
 
         carDTO.getCarName().transferTo(new File(uploadDir.getAbsolutePath() + "/" + carDTO.getCarName().getOriginalFilename()));
 
-        Car car =new Car(carDTO.getBrand(),
+        Car car =new Car(
+                carDTO.getBrand(),
                 carDTO.getModel(),
                 carDTO.getNoOfPassengers(),
                 carDTO.getFuelType(),
@@ -50,8 +48,7 @@ public class CarService {
         Car carNew = carRepo.save(car);
         System.out.println(carNew);
 
-        return new CarDetailsGetDto(carNew.getCar_id(),carNew.getBrand(),carNew.getModel(),carNew.getNoOfPassengers(),
-                carNew.getFuelType(),carNew.getTransmissionMode(),carNew.getDailyRentalPrice(),carNew.getStatus(),carNew.getCarName());
+        return null;
     }
 
     public List<Car> getAllCar(){

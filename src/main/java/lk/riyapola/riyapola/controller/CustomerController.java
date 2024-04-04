@@ -132,6 +132,17 @@ public ResponseEntity<Object> getAllCars(){
         }
 
     }
+    @PutMapping("/customerUserNamePasswordUpdateById")
+    public ResponseEntity<Object> updateCustomerUserNamePasswordById( @RequestBody CustomerDTO customerDTO, @RequestHeader(name = "Authorization") String authorizationHeader) {
+        if (jwtTokenGenerator.validateJwtToken(authorizationHeader)) {
+            Customer customerFromJwtToken=jwtTokenGenerator.getCustomerFromJwtToken(authorizationHeader);
+            Customer customerUpdate = customerService.updateCustomerUserNamePasswordById(customerFromJwtToken, customerDTO);
+            return new ResponseEntity<>(customerUpdate, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>("Invalid token By Customer", HttpStatus.FORBIDDEN);
+        }
+
+    }
     @PostMapping("/login")
     public  ResponseEntity<Object> customerLogin(@RequestBody CustomerDTO customerDTO){
         try {

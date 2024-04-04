@@ -1,14 +1,13 @@
 package lk.riyapola.riyapola.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -29,7 +28,8 @@ public class Car {
     private String  status;
     private  String carName;
 
-
+   @OneToMany(mappedBy = "car",cascade = CascadeType.ALL)
+   private List<CarImg> carImgs;
 
     public Car(String brand, String model, String noOfPassengers, String fuelType, String transmissionMode, double dailyRentalPrice, String status, String carName) {
         this.brand = brand;
