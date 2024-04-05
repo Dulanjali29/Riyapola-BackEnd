@@ -27,7 +27,7 @@ public class CarService {
 
     public Car saveCar(CarDTO carDTO) throws URISyntaxException, IOException {
         if(carDTO!=null){
-            Car carsave =new Car(
+            Car carsave =carRepo.save(new Car(
                     carDTO.getBrand(),
                     carDTO.getModel(),
                     carDTO.getNoOfPassengers(),
@@ -35,14 +35,15 @@ public class CarService {
                     carDTO.getTransmissionMode(),
                     carDTO.getDailyRentalPrice(),
                     carDTO.getStatus(),
-                    carDTO.getImage().getOriginalFilename());
+                    carDTO.getImage().getOriginalFilename()
+            ));
 
+            CarImg carImg=new CarImg();
             String projectPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile().getParentFile().getAbsolutePath();
             File uploadDir = new File(projectPath + "/src/main/resources/static/uploads");
-
             uploadDir.mkdir();
             carDTO.getImage().transferTo(new File(uploadDir.getAbsolutePath() + "/" + carDTO.getImage().getOriginalFilename()));
-            CarImg carImg=new CarImg();
+
 
             carImg.setImage(projectPath);
             carImg.setImage("uploads/" +carDTO.getImage().getOriginalFilename());
