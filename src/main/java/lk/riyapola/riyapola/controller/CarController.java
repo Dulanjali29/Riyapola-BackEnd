@@ -29,8 +29,8 @@ public class CarController {
     @PostMapping("/carRegister")
     public ResponseEntity<Object> registerCar(@ModelAttribute CarDTO carDTO, @RequestHeader(name = "Authorization") String authorizationHeader) throws URISyntaxException, IOException {
         if (jwtTokenGenerator.validateJwtToken(authorizationHeader)) {
-            CarImgSavetDto carDetailsGetDto = carService.saveCar(carDTO);
-            return new ResponseEntity<>(carDetailsGetDto, HttpStatus.CREATED);
+            Car carsave = carService.saveCar(carDTO);
+            return new ResponseEntity<>(carsave, HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>("Invalid token By Admin", HttpStatus.FORBIDDEN);
         }

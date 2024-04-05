@@ -23,14 +23,14 @@ public class CarDTO {
     private String  status;
     private MultipartFile image;
 
-    public CarDTO(String brand, String model, String noOfPassengers, String fuelType, String transmissionMode, double dailyRentalPrice, String status,MultipartFile image) {
-        this.brand = brand;
-        this.model = model;
-        this.noOfPassengers = noOfPassengers;
-        this.fuelType = fuelType;
-        this.transmissionMode = transmissionMode;
-        this.dailyRentalPrice = dailyRentalPrice;
-        this.status = status;
-        this.image=image;
-    }
+//    public CarDTO(String brand, String model, String noOfPassengers, String fuelType, String transmissionMode, double dailyRentalPrice, String status,MultipartFile image) {
+//        this.brand = brand;
+//        this.model = model;
+//        this.noOfPassengers = noOfPassengers;
+//        this.fuelType = fuelType;
+//        this.transmissionMode = transmissionMode;
+//        this.dailyRentalPrice = dailyRentalPrice;
+//        this.status = status;
+//        this.image=image;
+//    }
 }

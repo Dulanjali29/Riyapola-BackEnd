@@ -1,8 +1,8 @@
 package lk.riyapola.riyapola.service;
 
 import lk.riyapola.riyapola.dto.CarDTO;
-import lk.riyapola.riyapola.dto.CarImgSavetDto;
 import lk.riyapola.riyapola.entity.Car;
+import lk.riyapola.riyapola.entity.CarImg;
 import lk.riyapola.riyapola.repo.CarRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,31 +25,37 @@ public class CarService {
     }
 
 
-    public CarImgSavetDto saveCar(CarDTO carDTO) throws URISyntaxException, IOException {
+    public Car saveCar(CarDTO carDTO) throws URISyntaxException, IOException {
+        if(carDTO!=null){
+            Car carsave =new Car(
+                    carDTO.getBrand(),
+                    carDTO.getModel(),
+                    carDTO.getNoOfPassengers(),
+                    carDTO.getFuelType(),
+                    carDTO.getTransmissionMode(),
+                    carDTO.getDailyRentalPrice(),
+                    carDTO.getStatus(),
+                    carDTO.getImage().getOriginalFilename());
 
-        String projectPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile().getParentFile().getAbsolutePath();
-        File uploadDir = new File(projectPath + "/src/main/resources/static/uploads");
+            String projectPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile().getParentFile().getAbsolutePath();
+            File uploadDir = new File(projectPath + "/src/main/resources/static/uploads");
 
-        uploadDir.mkdir();
+            uploadDir.mkdir();
+            carDTO.getImage().transferTo(new File(uploadDir.getAbsolutePath() + "/" + carDTO.getImage().getOriginalFilename()));
+            CarImg carImg=new CarImg();
 
-        carDTO.getImage().transferTo(new File(uploadDir.getAbsolutePath() + "/" + carDTO.getImage().getOriginalFilename()));
+            carImg.setImage(projectPath);
+            carImg.setImage("uploads/" +carDTO.getImage().getOriginalFilename());
+            carImg.setCar(carsave);
 
-        Car car =new Car(
-                carDTO.getBrand(),
-                carDTO.getModel(),
-                carDTO.getNoOfPassengers(),
-                carDTO.getFuelType(),
-                carDTO.getTransmissionMode(),
-                carDTO.getDailyRentalPrice(),
-                carDTO.getStatus(),
-                carDTO.getImage().getOriginalFilename());
+            List<CarImg> carImgs=new ArrayList<>();
+            carImgs.add(carImg);
+            carsave.setCarImgs(carImgs);
+            Car saved=carRepo.save(carsave);
 
-        car.setCarName("uploads/" +carDTO.getImage().getOriginalFilename());
-
-        Car carNew = carRepo.save(car);
-        System.out.println(carNew);
-
-        return null;
+            return saved;
+        }
+      return  null;
     }
 
     public List<Car> getAllCar(){

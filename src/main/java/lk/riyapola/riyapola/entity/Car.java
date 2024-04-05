@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -26,12 +25,12 @@ public class Car {
     private String transmissionMode;
     private  double dailyRentalPrice;
     private String  status;
-    private  String carName;
+
 
    @OneToMany(mappedBy = "car",cascade = CascadeType.ALL)
    private List<CarImg> carImgs;
 
-    public Car(String brand, String model, String noOfPassengers, String fuelType, String transmissionMode, double dailyRentalPrice, String status, String carName) {
+    public Car(String brand, String model, String noOfPassengers, String fuelType, String transmissionMode, double dailyRentalPrice, String status, String originalFilename) {
         this.brand = brand;
         this.model=model;
         this.noOfPassengers=noOfPassengers;
@@ -39,6 +38,18 @@ public class Car {
         this.transmissionMode=transmissionMode;
         this.dailyRentalPrice=dailyRentalPrice;
         this.status=status;
-        this.carName=carName;
+
+    }
+
+    public Car(Integer car_id, String brand, String model, String noOfPassengers, String fuelType, String transmissionMode, double dailyRentalPrice, String status) {
+        this.car_id = car_id;
+        this.brand = brand;
+        this.model = model;
+        this.noOfPassengers = noOfPassengers;
+        this.fuelType = fuelType;
+        this.transmissionMode = transmissionMode;
+        this.dailyRentalPrice = dailyRentalPrice;
+        this.status = status;
+
     }
 }
