@@ -30,7 +30,7 @@ public class Car {
    @OneToMany(mappedBy = "car",cascade = CascadeType.ALL)
    private List<CarImg> carImgs;
 
-    public Car(String brand, String model, String noOfPassengers, String fuelType, String transmissionMode, double dailyRentalPrice, String status, String originalFilename) {
+    public Car(String brand, String model, String noOfPassengers, String fuelType, String transmissionMode, double dailyRentalPrice, String status) {
         this.brand = brand;
         this.model=model;
         this.noOfPassengers=noOfPassengers;

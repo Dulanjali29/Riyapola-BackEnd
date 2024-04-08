@@ -34,8 +34,8 @@ public class CarService {
                     carDTO.getFuelType(),
                     carDTO.getTransmissionMode(),
                     carDTO.getDailyRentalPrice(),
-                    carDTO.getStatus(),
-                    carDTO.getImage().getOriginalFilename()
+                    carDTO.getStatus()
+
             ));
 
             CarImg carImg=new CarImg();
@@ -63,26 +63,43 @@ public class CarService {
        List <Car>allCar=carRepo.findAll();
        return  allCar;
     }
-//    public Car updateCar(Integer id, CarDTO carDTO) {
-//
-//        if (carRepo.existsById(id)) {
-//            Car save=carRepo.save(new Car(
-//                    id,
-//                    carDTO.getBrand(),
-//                    carDTO.getModel(),
-//                    carDTO.getNoOfPassengers(),
-//                    carDTO.getFuelType(),
-//                    carDTO.getTransmissionMode(),
-//                    carDTO.getDailyRentalPrice(),
-//                    carDTO.getStatus()
-//            ));
-//
-//            return  save;
-//        }else {
-//            return null;
-//        }
-//
-//    }
+    public Car updateCar(Integer id, CarDTO carDTO) throws  IOException,URISyntaxException {
+
+        if (carRepo.existsById(id)) {
+            Car carsave =carRepo.save(new Car(
+                    id,
+                    carDTO.getBrand(),
+                    carDTO.getModel(),
+                    carDTO.getNoOfPassengers(),
+                    carDTO.getFuelType(),
+                    carDTO.getTransmissionMode(),
+                    carDTO.getDailyRentalPrice(),
+                    carDTO.getStatus()
+
+            ));
+
+            CarImg carImg=new CarImg();
+            String projectPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile().getParentFile().getAbsolutePath();
+            File uploadDir = new File(projectPath + "/src/main/resources/static/uploads");
+            uploadDir.mkdir();
+            carDTO.getImage().transferTo(new File(uploadDir.getAbsolutePath() + "/" + carDTO.getImage().getOriginalFilename()));
+
+
+            carImg.setImage(projectPath);
+            carImg.setImage("uploads/" +carDTO.getImage().getOriginalFilename());
+            carImg.setCar(carsave);
+
+            List<CarImg> carImgs=new ArrayList<>();
+            carImgs.add(carImg);
+            carsave.setCarImgs(carImgs);
+            Car saved=carRepo.save(carsave);
+
+            return saved;
+        }else {
+            return null;
+        }
+
+    }
     public String deleteCar(Integer id) {
         if (carRepo.existsById(id)) {
             carRepo.deleteById(id);

@@ -14,7 +14,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 @CrossOrigin
 @RestController
-@RequestMapping("riyapola/car")
+@RequestMapping("/riyapola/car")
 
 public class CarController {
     private final CarService carService;
@@ -48,14 +48,14 @@ public class CarController {
 
 
     }
-//    @PutMapping("/updateCar/{carId}")
-//    public ResponseEntity<Object> updateCar(@PathVariable Integer carId, @RequestBody CarDTO carDTO, @RequestHeader(name="Authorization") String authorizationHeader) {
-//        if(jwtTokenGenerator.validateJwtToken(authorizationHeader)){
-//            Car car = carService.updateCar(carId, carDTO);
-//            return new ResponseEntity<>(car, HttpStatus.OK);
-//        }
-//        return  new ResponseEntity<>("Invalid token By Admin",HttpStatus.FORBIDDEN);
-//    }
+    @PutMapping("/updateCar/{carId}")
+    public ResponseEntity<Object> updateCar(@PathVariable Integer carId, @ModelAttribute CarDTO carDTO, @RequestHeader(name="Authorization") String authorizationHeader) throws IOException, URISyntaxException {
+        if(jwtTokenGenerator.validateJwtToken(authorizationHeader)){
+            Car car = carService.updateCar(carId, carDTO);
+            return new ResponseEntity<>(car, HttpStatus.OK);
+        }
+        return  new ResponseEntity<>("Invalid token By Admin",HttpStatus.FORBIDDEN);
+    }
     @DeleteMapping("/deleteCar/{carId}")
     public ResponseEntity<Object> deleteCar(@PathVariable Integer carId ,@RequestHeader(name="Authorization") String authorizationHeader) {
         if(jwtTokenGenerator.validateJwtToken(authorizationHeader)){

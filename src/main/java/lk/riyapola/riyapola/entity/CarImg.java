@@ -19,7 +19,7 @@ public class CarImg {
 
   @ManyToOne
   @JoinColumn(name="car_id")
-
+  @JsonIgnore
    private  Car car;
 
 }
