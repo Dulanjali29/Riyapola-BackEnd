@@ -46,7 +46,6 @@ public class CarController {
             return new ResponseEntity<>("Invalid token By Admin", HttpStatus.FORBIDDEN);
         }
 
-
     }
     @PutMapping("/updateCar/{carId}")
     public ResponseEntity<Object> updateCar(@PathVariable Integer carId, @ModelAttribute CarDTO carDTO, @RequestHeader(name="Authorization") String authorizationHeader) throws IOException, URISyntaxException {
