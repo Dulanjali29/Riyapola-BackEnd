@@ -1,6 +1,7 @@
 package lk.riyapola.riyapola.entity;
 
 import jakarta.persistence.*;
+import lk.riyapola.riyapola.dto.CarImageGetDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,7 @@ public class Car {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer car_id;
+    private Integer carId;
     private String brand;
     private  String  model;
     private String noOfPassengers;
@@ -30,19 +31,15 @@ public class Car {
    @OneToMany(mappedBy = "car",cascade = CascadeType.ALL)
    private List<CarImg> carImgs;
 
-    public Car(String brand, String model, String noOfPassengers, String fuelType, String transmissionMode, double dailyRentalPrice, String status) {
-        this.brand = brand;
-        this.model=model;
-        this.noOfPassengers=noOfPassengers;
-        this.fuelType=fuelType;
-        this.transmissionMode=transmissionMode;
-        this.dailyRentalPrice=dailyRentalPrice;
-        this.status=status;
 
-    }
 
-    public Car(Integer car_id, String brand, String model, String noOfPassengers, String fuelType, String transmissionMode, double dailyRentalPrice, String status) {
-        this.car_id = car_id;
+
+
+
+
+
+    public Car(Integer carId, String brand, String model, String noOfPassengers, String fuelType, String transmissionMode, double dailyRentalPrice, String status) {
+        this.carId = carId;
         this.brand = brand;
         this.model = model;
         this.noOfPassengers = noOfPassengers;
@@ -51,5 +48,16 @@ public class Car {
         this.dailyRentalPrice = dailyRentalPrice;
         this.status = status;
 
+    }
+
+
+    public Car(String brand, String model, String noOfPassengers, String fuelType, String transmissionMode, double dailyRentalPrice, String status) {
+        this.brand = brand;
+        this.model = model;
+        this.noOfPassengers = noOfPassengers;
+        this.fuelType = fuelType;
+        this.transmissionMode = transmissionMode;
+        this.dailyRentalPrice = dailyRentalPrice;
+        this.status = status;
     }
 }

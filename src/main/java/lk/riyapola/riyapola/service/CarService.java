@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CarService {
@@ -25,9 +26,10 @@ public class CarService {
     }
 
 
-    public Car saveCar(CarDTO carDTO) throws URISyntaxException, IOException {
-        if(carDTO!=null){
-            Car carsave =carRepo.save(new Car(
+    public Car saveCar(CarDTO carDTO) {
+        System.out.println("service"+carDTO.getBrand());
+
+       Car save= carRepo.save(new Car(
                     carDTO.getBrand(),
                     carDTO.getModel(),
                     carDTO.getNoOfPassengers(),
@@ -36,34 +38,18 @@ public class CarService {
                     carDTO.getDailyRentalPrice(),
                     carDTO.getStatus()
 
+
             ));
+        System.out.println(save);
+        return save;
 
-            CarImg carImg=new CarImg();
-            String projectPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile().getParentFile().getAbsolutePath();
-            File uploadDir = new File(projectPath + "/src/main/resources/static/uploads");
-            uploadDir.mkdir();
-            carDTO.getImage().transferTo(new File(uploadDir.getAbsolutePath() + "/" + carDTO.getImage().getOriginalFilename()));
-
-
-            carImg.setImage(projectPath);
-            carImg.setImage("uploads/" +carDTO.getImage().getOriginalFilename());
-            carImg.setCar(carsave);
-
-            List<CarImg> carImgs=new ArrayList<>();
-            carImgs.add(carImg);
-            carsave.setCarImgs(carImgs);
-            Car saved=carRepo.save(carsave);
-
-            return saved;
-        }
-      return  null;
     }
 
     public List<Car> getAllCar(){
        List <Car>allCar=carRepo.findAll();
        return  allCar;
     }
-    public Car updateCar(Integer id, CarDTO carDTO) throws  IOException,URISyntaxException {
+    public Car updateCar(Integer id, CarDTO carDTO) {
 
         if (carRepo.existsById(id)) {
             Car carsave =carRepo.save(new Car(
@@ -78,20 +64,19 @@ public class CarService {
 
             ));
 
-            CarImg carImg=new CarImg();
-            String projectPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile().getParentFile().getAbsolutePath();
-            File uploadDir = new File(projectPath + "/src/main/resources/static/uploads");
-            uploadDir.mkdir();
-            carDTO.getImage().transferTo(new File(uploadDir.getAbsolutePath() + "/" + carDTO.getImage().getOriginalFilename()));
-
-
-            carImg.setImage(projectPath);
-            carImg.setImage("uploads/" +carDTO.getImage().getOriginalFilename());
-            carImg.setCar(carsave);
-
-            List<CarImg> carImgs=new ArrayList<>();
-            carImgs.add(carImg);
-            carsave.setCarImgs(carImgs);
+//            String projectPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile().getParentFile().getAbsolutePath();
+//            File uploadDir = new File(projectPath + "/src/main/resources/static/uploads");
+//            uploadDir.mkdir();
+//            carDTO.getImage().transferTo(new File(uploadDir.getAbsolutePath() + "/" + carDTO.getImage().getOriginalFilename()));
+//
+//            CarImg carImg=new CarImg();
+//            carImg.setImage(projectPath);
+//            carImg.setImage("uploads/" +carDTO.getImage().getOriginalFilename());
+//            carImg.setCar(carsave);
+//
+//            List<CarImg> carImgs=new ArrayList<>();
+//            carImgs.add(carImg);
+//            carsave.setCarImgs(carImgs);
             Car saved=carRepo.save(carsave);
 
             return saved;
@@ -100,6 +85,7 @@ public class CarService {
         }
 
     }
+
     public String deleteCar(Integer id) {
         if (carRepo.existsById(id)) {
             carRepo.deleteById(id);

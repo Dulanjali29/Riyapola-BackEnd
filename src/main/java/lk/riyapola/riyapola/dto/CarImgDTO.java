@@ -8,8 +8,11 @@ import org.springframework.web.multipart.MultipartFile;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class CarImgDTO {
    private  int imgId;
-   private MultipartFile image;
-   private int car_id;
+   private MultipartFile images;
+   private int carId;
+
+
 }

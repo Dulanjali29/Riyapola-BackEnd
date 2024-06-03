@@ -1,11 +1,14 @@
 package lk.riyapola.riyapola.dto;
 
 import jakarta.persistence.Entity;
+import lk.riyapola.riyapola.entity.CarImg;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.web.multipart.MultipartFile;
+
+
+import java.util.List;
 
 
 @Data
@@ -13,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 @ToString
 public class CarDTO {
-    private Integer car_id;
+    private int carId;
     private String brand;
     private  String  model;
     private String noOfPassengers;
@@ -21,16 +24,7 @@ public class CarDTO {
     private String transmissionMode;
     private  double dailyRentalPrice;
     private String  status;
-    private MultipartFile image;
+    private List<CarImageGetDto> images;
 
-//    public CarDTO(String brand, String model, String noOfPassengers, String fuelType, String transmissionMode, double dailyRentalPrice, String status,MultipartFile image) {
-//        this.brand = brand;
-//        this.model = model;
-//        this.noOfPassengers = noOfPassengers;
-//        this.fuelType = fuelType;
-//        this.transmissionMode = transmissionMode;
-//        this.dailyRentalPrice = dailyRentalPrice;
-//        this.status = status;
-//        this.image=image;
-//    }
+
 }
