@@ -1,12 +1,12 @@
 package lk.riyapola.riyapola.entity;
 
 import jakarta.persistence.*;
-import lk.riyapola.riyapola.dto.CarImageGetDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,23 +20,16 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer carId;
     private String brand;
-    private  String  model;
+    private String model;
     private String noOfPassengers;
     private String fuelType;
     private String transmissionMode;
-    private  double dailyRentalPrice;
-    private String  status;
+    private double dailyRentalPrice;
+    private String status;
 
-
-   @OneToMany(mappedBy = "car",cascade = CascadeType.ALL)
-   private List<CarImg> carImgs;
-
-
-
-
-
-
-
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    private List<CarImg> carImgs = new ArrayList<>();
 
     public Car(Integer carId, String brand, String model, String noOfPassengers, String fuelType, String transmissionMode, double dailyRentalPrice, String status) {
         this.carId = carId;
@@ -47,9 +40,7 @@ public class Car {
         this.transmissionMode = transmissionMode;
         this.dailyRentalPrice = dailyRentalPrice;
         this.status = status;
-
     }
-
 
     public Car(String brand, String model, String noOfPassengers, String fuelType, String transmissionMode, double dailyRentalPrice, String status) {
         this.brand = brand;
@@ -60,4 +51,10 @@ public class Car {
         this.dailyRentalPrice = dailyRentalPrice;
         this.status = status;
     }
+
+//    public Car(Integer id, String brand, String model, String noOfPassengers, String fuelType, String transmissionMode, double dailyRentalPrice, String status) {
+//    }
+
+//    public Car(String brand, String model, String noOfPassengers, String fuelType, String transmissionMode, double dailyRentalPrice, String status) {
+//    }
 }

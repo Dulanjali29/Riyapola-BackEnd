@@ -27,7 +27,7 @@ public class CarService {
 
 
     public Car saveCar(CarDTO carDTO) {
-        System.out.println("service"+carDTO.getBrand());
+
 
        Car save= carRepo.save(new Car(
                     carDTO.getBrand(),

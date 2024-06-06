@@ -5,44 +5,85 @@ import lk.riyapola.riyapola.dto.CarImgDTO;
 import lk.riyapola.riyapola.entity.Car;
 import lk.riyapola.riyapola.entity.CarImg;
 import lk.riyapola.riyapola.repo.CarImgRepo;
+import lk.riyapola.riyapola.repo.CarRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-/**
- * Created by dulanjali
- * Project Name : riyapola
- * Package Name : lk.riyapola.riyapola.service
- * Date : 5/28/2024
- * Time :4:18 PM
- */
-
 @Service
 public class CarImgService {
-    private  final CarImgRepo carImgRepo;
-@Autowired
-    public CarImgService(CarImgRepo carImgRepo) {
+    private final CarImgRepo carImgRepo;
+    private final CarRepo carRepo;
 
-    this.carImgRepo = carImgRepo;
+    @Autowired
+    public CarImgService(CarImgRepo carImgRepo, CarRepo carRepo) {
+        this.carImgRepo = carImgRepo;
+        this.carRepo = carRepo;
     }
+
+    @Transactional
     public CarImageGetDto saveImage(CarImgDTO carImgDTO) throws URISyntaxException, IOException {
+        System.out.println(carImgDTO.getCarId());
+
+        // Construct upload directory path
         String projectPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile().getParentFile().getAbsolutePath();
         File uploadDir = new File(projectPath + "/src/main/resources/static/uploads");
-        uploadDir.mkdir();
-        carImgDTO.getImages().transferTo(new File(uploadDir.getAbsolutePath() + "/" + carImgDTO.getImages().getOriginalFilename()));
+        if (!uploadDir.exists()) {
+            uploadDir.mkdirs(); // Ensure directories are created
+        }
 
-        CarImg img=new CarImg(carImgDTO.getImages().getOriginalFilename(),carImgDTO.getCarId(),carImgDTO.getImgId());
-        img.setImages("uploads/"+carImgDTO.getImages().getOriginalFilename());
+        // Save the image file to the upload directory
+        File destinationFile = new File(uploadDir.getAbsolutePath() + "/" + carImgDTO.getImages().getOriginalFilename());
+        carImgDTO.getImages().transferTo(destinationFile);
+
+        // Fetch the Car entity using carId
+        Car car = carRepo.findById(carImgDTO.getCarId())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid car ID"));
+
+        // Create CarImg entity
+        CarImg img = new CarImg("uploads/" + carImgDTO.getImages().getOriginalFilename(), car);
+
+        // Save CarImg entity
+        CarImg savedImg = carImgRepo.save(img);
+
+        return new CarImageGetDto(savedImg);
+    }
+    public CarImageGetDto updateImage(Integer imgId,CarImgDTO carImgDTO) throws URISyntaxException, IOException {
 
 
-        System.out.println("car id 2-"+carImgDTO.getCarId());
+        // Construct upload directory path
+        String projectPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile().getParentFile().getAbsolutePath();
+        File uploadDir = new File(projectPath + "/src/main/resources/static/uploads");
+        if (!uploadDir.exists()) {
+            uploadDir.mkdirs(); // Ensure directories are created
+        }
 
-        CarImg saved=carImgRepo.save(img);
+        // Save the image file to the upload directory
+        File destinationFile = new File(uploadDir.getAbsolutePath() + "/" + carImgDTO.getImages().getOriginalFilename());
+        carImgDTO.getImages().transferTo(destinationFile);
 
-        System.out.println(saved);
-        return new CarImageGetDto(saved);
+        // Fetch the Car entity using carId
+        Car car = carRepo.findById(carImgDTO.getCarId())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid car ID"));
+
+        // Fetch the existing CarImg entity using imgId
+        CarImg img = carImgRepo.findById(imgId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid image ID"));
+
+        // update the CarImg entity
+        img.setImages("uploads/" + carImgDTO.getImages().getOriginalFilename());
+        img.setCar(car);
+
+        // Save  the updated CarImg entity
+        if(carImgRepo.existsById(imgId)){
+            CarImg savedImg = carImgRepo.save(img);
+
+            return new CarImageGetDto(savedImg);
+        }
+      return null;
     }
 }
