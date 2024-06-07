@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -42,11 +43,25 @@ public class CarImgController {
 
             CarImageGetDto carImageGetDto = carImgService.updateImage(imgId,carImgDTO);
             if(carImageGetDto!=null){
-                return new ResponseEntity<>(carImageGetDto, HttpStatus.CREATED);
+                return new ResponseEntity<>(carImageGetDto, HttpStatus.OK);
             }
             return new ResponseEntity<>("Image not found or could not be updated", HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>("Invalid token By Admin", HttpStatus.FORBIDDEN);
         }
+    }
+    @GetMapping("/getAllCarImages")
+    public ResponseEntity<Object> getAllCarImages(){
+        List<CarImageGetDto> getDto=carImgService.getAllCarImages();
+        return  new ResponseEntity<>(getDto,HttpStatus.OK);
+    }
+    @DeleteMapping("/deleteCarImage/{carId}")
+    public ResponseEntity<String>deleteCarImage(@RequestHeader( name = "Authorization") String authorizationHeader,@PathVariable Integer carId)throws IOException,URISyntaxException{
+    if(jwtTokenGenerator.validateJwtToken(authorizationHeader)){
+        String output=carImgService.deleteCarImage(carId);
+       return new ResponseEntity<>(output,HttpStatus.OK);
+    }else {
+        return new ResponseEntity<>("Invalid token By Admin", HttpStatus.FORBIDDEN);
+     }
     }
 }

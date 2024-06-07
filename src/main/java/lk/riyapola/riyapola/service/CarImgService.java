@@ -7,12 +7,16 @@ import lk.riyapola.riyapola.entity.CarImg;
 import lk.riyapola.riyapola.repo.CarImgRepo;
 import lk.riyapola.riyapola.repo.CarRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CarImgService {
@@ -52,6 +56,8 @@ public class CarImgService {
 
         return new CarImageGetDto(savedImg);
     }
+
+
     public CarImageGetDto updateImage(Integer imgId,CarImgDTO carImgDTO) throws URISyntaxException, IOException {
 
 
@@ -86,4 +92,21 @@ public class CarImgService {
         }
       return null;
     }
-}
+    public List<CarImageGetDto>getAllCarImages(){
+        List <CarImg> all=carImgRepo.findAll();
+        List<CarImageGetDto> list=new ArrayList<>();
+        for(CarImg carImg:all){
+            list.add(new CarImageGetDto(carImg));
+        }
+        return list;
+    }
+
+    public String deleteCarImage(Integer carId){
+        if(carImgRepo.existsById(carId)){
+            carImgRepo.deleteById(carId);
+            return "Car Image Deleted";
+        }
+       return "No Car image found";
+
+    }
+    }
