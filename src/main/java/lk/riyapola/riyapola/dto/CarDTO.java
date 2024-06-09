@@ -1,5 +1,6 @@
 package lk.riyapola.riyapola.dto;
 
+import lk.riyapola.riyapola.entity.Car;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 public class CarDTO {
-    private int carId;
+    private Integer carId;
     private String brand;
     private String model;
     private String noOfPassengers;
@@ -21,4 +22,8 @@ public class CarDTO {
     private double dailyRentalPrice;
     private String status;
     private List<CarImageGetDto> images;
+
+
+
+
 }

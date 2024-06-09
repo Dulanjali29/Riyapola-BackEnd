@@ -1,6 +1,7 @@
 package lk.riyapola.riyapola.service;
 
 import lk.riyapola.riyapola.dto.CarDTO;
+import lk.riyapola.riyapola.dto.CarImageGetDto;
 import lk.riyapola.riyapola.entity.Car;
 import lk.riyapola.riyapola.entity.CarImg;
 import lk.riyapola.riyapola.repo.CarRepo;
@@ -29,17 +30,19 @@ public class CarService {
     public Car saveCar(CarDTO carDTO) {
 
 
-       Car save= carRepo.save(new Car(
-                    carDTO.getBrand(),
-                    carDTO.getModel(),
-                    carDTO.getNoOfPassengers(),
-                    carDTO.getFuelType(),
-                    carDTO.getTransmissionMode(),
-                    carDTO.getDailyRentalPrice(),
-                    carDTO.getStatus()
+        Car save = carRepo.save(new Car(
+
+                carDTO.getBrand(),
+                carDTO.getModel(),
+                carDTO.getNoOfPassengers(),
+                carDTO.getFuelType(),
+                carDTO.getTransmissionMode(),
+                carDTO.getDailyRentalPrice(),
+                carDTO.getStatus()
 
 
-            ));
+        ));
+        System.out.println(save.getCarId());
         System.out.println(save);
         return save;
 
@@ -49,6 +52,9 @@ public class CarService {
        List <Car>allCar=carRepo.findAll();
        return  allCar;
     }
+
+
+
     public Car updateCar(Integer id, CarDTO carDTO) {
 
         if (carRepo.existsById(id)) {
@@ -64,19 +70,7 @@ public class CarService {
 
             ));
 
-//            String projectPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile().getParentFile().getAbsolutePath();
-//            File uploadDir = new File(projectPath + "/src/main/resources/static/uploads");
-//            uploadDir.mkdir();
-//            carDTO.getImage().transferTo(new File(uploadDir.getAbsolutePath() + "/" + carDTO.getImage().getOriginalFilename()));
-//
-//            CarImg carImg=new CarImg();
-//            carImg.setImage(projectPath);
-//            carImg.setImage("uploads/" +carDTO.getImage().getOriginalFilename());
-//            carImg.setCar(carsave);
-//
-//            List<CarImg> carImgs=new ArrayList<>();
-//            carImgs.add(carImg);
-//            carsave.setCarImgs(carImgs);
+
             Car saved=carRepo.save(carsave);
 
             return saved;

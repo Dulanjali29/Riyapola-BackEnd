@@ -1,6 +1,10 @@
 package lk.riyapola.riyapola.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
+import lk.riyapola.riyapola.dto.CarDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +18,13 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "carId")
+
 public class Car {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +39,7 @@ public class Car {
 
     @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
-    private List<CarImg> carImgs = new ArrayList<>();
+    List<CarImg> carImgs = new ArrayList<>();
 
     public Car(Integer carId, String brand, String model, String noOfPassengers, String fuelType, String transmissionMode, double dailyRentalPrice, String status) {
         this.carId = carId;
@@ -52,9 +62,6 @@ public class Car {
         this.status = status;
     }
 
-//    public Car(Integer id, String brand, String model, String noOfPassengers, String fuelType, String transmissionMode, double dailyRentalPrice, String status) {
-//    }
 
-//    public Car(String brand, String model, String noOfPassengers, String fuelType, String transmissionMode, double dailyRentalPrice, String status) {
-//    }
+
 }

@@ -2,7 +2,6 @@ package lk.riyapola.riyapola.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -10,10 +9,10 @@ import lombok.ToString;
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
+//@AllArgsConstructor
 @ToString
 public class CarImg {
-
+  @JsonIgnore
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer imgId;
@@ -21,11 +20,16 @@ public class CarImg {
 
   @ManyToOne
   @JoinColumn(name = "car_id", nullable = false)
-  @JsonIgnore
+
   private Car car;
 
+
+
+
   public CarImg(String images, Car car) {
+
     this.images = images;
     this.car = car;
   }
 }
+

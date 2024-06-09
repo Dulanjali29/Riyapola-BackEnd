@@ -29,11 +29,14 @@ public class CarController {
     }
 
     @PostMapping("/carRegister")
-    public ResponseEntity<Object> registerCar(@RequestBody CarDTO carDTO, @RequestHeader(name = "Authorization") String authorizationHeader)  {
+    public ResponseEntity<Object> registerCar(@RequestBody CarDTO carDTO, @RequestHeader(name = "Authorization") String authorizationHeader) {
         if (jwtTokenGenerator.validateJwtToken(authorizationHeader)) {
 
             Car carsave = carService.saveCar(carDTO);
+
+            System.out.println("-----"+carsave.getCarId());
             return new ResponseEntity<>(carsave, HttpStatus.CREATED);
+
         } else {
             return new ResponseEntity<>("Invalid token By Admin", HttpStatus.FORBIDDEN);
         }
@@ -41,9 +44,9 @@ public class CarController {
     }
 
     @GetMapping("/getAllCar")
-    public ResponseEntity<Object> getAllCar() {
+    public ResponseEntity <List<Car>> getAllCar(@RequestHeader(name = "Authorization") String authorizationHeader) {
 
-            List<Car> allCars = carService.getAllCar();
+           List<Car> allCars = carService.getAllCar();
 
             return new ResponseEntity<>(allCars, HttpStatus.OK);
 
