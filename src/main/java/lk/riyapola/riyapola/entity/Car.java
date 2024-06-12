@@ -31,17 +31,17 @@ public class Car {
     private Integer carId;
     private String brand;
     private String model;
-    private String noOfPassengers;
+    private int noOfPassengers;
     private String fuelType;
     private String transmissionMode;
     private double dailyRentalPrice;
     private String status;
 
-    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "car", cascade = {CascadeType.PERSIST,CascadeType.MERGE}, orphanRemoval = true)
     @ToString.Exclude
     List<CarImg> carImgs = new ArrayList<>();
 
-    public Car(Integer carId, String brand, String model, String noOfPassengers, String fuelType, String transmissionMode, double dailyRentalPrice, String status) {
+    public Car(Integer carId, String brand, String model, int noOfPassengers, String fuelType, String transmissionMode, double dailyRentalPrice, String status) {
         this.carId = carId;
         this.brand = brand;
         this.model = model;
@@ -52,7 +52,7 @@ public class Car {
         this.status = status;
     }
 
-    public Car(String brand, String model, String noOfPassengers, String fuelType, String transmissionMode, double dailyRentalPrice, String status) {
+    public Car(String brand, String model, int noOfPassengers, String fuelType, String transmissionMode, double dailyRentalPrice, String status) {
         this.brand = brand;
         this.model = model;
         this.noOfPassengers = noOfPassengers;
@@ -61,7 +61,4 @@ public class Car {
         this.dailyRentalPrice = dailyRentalPrice;
         this.status = status;
     }
-
-
-
 }

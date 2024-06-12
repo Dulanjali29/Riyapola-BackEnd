@@ -6,6 +6,8 @@ import lk.riyapola.riyapola.entity.Car;
 import lk.riyapola.riyapola.entity.CarImg;
 import lk.riyapola.riyapola.repo.CarImgRepo;
 import lk.riyapola.riyapola.repo.CarRepo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -60,7 +62,6 @@ public class CarImgService {
 
     public CarImageGetDto updateImage(Integer imgId,CarImgDTO carImgDTO) throws URISyntaxException, IOException {
 
-
         // Construct upload directory path
         String projectPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile().getParentFile().getAbsolutePath();
         File uploadDir = new File(projectPath + "/src/main/resources/static/uploads");
@@ -74,11 +75,11 @@ public class CarImgService {
 
         // Fetch the Car entity using carId
         Car car = carRepo.findById(carImgDTO.getCarId())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid car ID"));
+                .orElseThrow(() -> new IllegalArgumentException("Invalid car ID"+carImgDTO.getCarId()));
 
         // Fetch the existing CarImg entity using imgId
         CarImg img = carImgRepo.findById(imgId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid image ID"));
+                .orElseThrow(() -> new IllegalArgumentException("Invalid image ID"+imgId));
 
         // update the CarImg entity
         img.setImages("uploads/" + carImgDTO.getImages().getOriginalFilename());
@@ -87,11 +88,12 @@ public class CarImgService {
         // Save  the updated CarImg entity
         if(carImgRepo.existsById(imgId)){
             CarImg savedImg = carImgRepo.save(img);
-
+            System.out.println(savedImg);
             return new CarImageGetDto(savedImg);
         }
       return null;
     }
+
     public List<CarImageGetDto>getAllCarImages(){
         List <CarImg> all=carImgRepo.findAll();
         List<CarImageGetDto> list=new ArrayList<>();

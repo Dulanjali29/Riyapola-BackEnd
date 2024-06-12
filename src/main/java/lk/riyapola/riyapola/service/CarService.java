@@ -26,9 +26,7 @@ public class CarService {
         this.carRepo = carRepo;
     }
 
-
     public Car saveCar(CarDTO carDTO) {
-
 
         Car save = carRepo.save(new Car(
 
@@ -39,7 +37,6 @@ public class CarService {
                 carDTO.getTransmissionMode(),
                 carDTO.getDailyRentalPrice(),
                 carDTO.getStatus()
-
 
         ));
         System.out.println(save.getCarId());
@@ -55,30 +52,30 @@ public class CarService {
 
 
 
-    public Car updateCar(Integer id, CarDTO carDTO) {
+    public Car updateCar(Integer carId, CarDTO carDTO)  {
+    Car carsave=carRepo.findById(carId).orElse(null);
 
-        if (carRepo.existsById(id)) {
-            Car carsave =carRepo.save(new Car(
-                    id,
-                    carDTO.getBrand(),
-                    carDTO.getModel(),
-                    carDTO.getNoOfPassengers(),
-                    carDTO.getFuelType(),
-                    carDTO.getTransmissionMode(),
-                    carDTO.getDailyRentalPrice(),
-                    carDTO.getStatus()
+            if(carsave!=null){
 
-            ));
+                carsave.setBrand( carDTO.getBrand());
+                carsave.setModel( carDTO.getModel());
+                carsave.setNoOfPassengers( carDTO.getNoOfPassengers());
+                carsave.setFuelType( carDTO.getFuelType());
+                carsave.setTransmissionMode( carDTO.getTransmissionMode());
+                carsave.setDailyRentalPrice( carDTO.getDailyRentalPrice());
+                carsave.setStatus( carDTO.getStatus());
 
+                Car saved=carRepo.save(carsave);
 
-            Car saved=carRepo.save(carsave);
+                return saved;
 
-            return saved;
-        }else {
-            return null;
-        }
+            }else{
+                return null;
+            }
+
 
     }
+
 
     public String deleteCar(Integer id) {
         if (carRepo.existsById(id)) {

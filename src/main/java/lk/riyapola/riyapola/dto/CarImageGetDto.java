@@ -17,9 +17,10 @@ public class CarImageGetDto {
 
 
 
-    public CarImageGetDto(CarImg savedImg) {
 
+    public CarImageGetDto(CarImg carImg) {
+        this.imgId = carImg.getImgId();
+        this.images = carImg.getImages();
+        this.carId = carImg.getCar().getCarId();
     }
-
-
 }

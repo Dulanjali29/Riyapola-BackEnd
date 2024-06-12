@@ -1,7 +1,10 @@
 package lk.riyapola.riyapola.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -9,10 +12,13 @@ import lombok.ToString;
 @Entity
 @Data
 @NoArgsConstructor
-//@AllArgsConstructor
+@AllArgsConstructor
 @ToString
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "imgId")
 public class CarImg {
-  @JsonIgnore
+//  @JsonIgnore
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer imgId;

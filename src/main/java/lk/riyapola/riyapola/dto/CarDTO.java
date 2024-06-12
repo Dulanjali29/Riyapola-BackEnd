@@ -16,7 +16,7 @@ public class CarDTO {
     private Integer carId;
     private String brand;
     private String model;
-    private String noOfPassengers;
+    private int noOfPassengers;
     private String fuelType;
     private String transmissionMode;
     private double dailyRentalPrice;
@@ -24,6 +24,6 @@ public class CarDTO {
     private List<CarImageGetDto> images;
 
 
-
-
+    public CarDTO(Car car) {
+    }
 }

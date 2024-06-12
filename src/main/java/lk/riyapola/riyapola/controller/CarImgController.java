@@ -45,7 +45,7 @@ public class CarImgController {
             if(carImageGetDto!=null){
                 return new ResponseEntity<>(carImageGetDto, HttpStatus.OK);
             }
-            return new ResponseEntity<>("Image not found or could not be updated", HttpStatus.CREATED);
+            return new ResponseEntity<>("Image not found or could not be updated", HttpStatus.NOT_FOUND);
         } else {
             return new ResponseEntity<>("Invalid token By Admin", HttpStatus.FORBIDDEN);
         }
