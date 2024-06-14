@@ -41,6 +41,10 @@ public class Car {
     @ToString.Exclude
     List<CarImg> carImgs = new ArrayList<>();
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "carId")
+    List<Reservation>reservations=new ArrayList<>();
+
     public Car(Integer carId, String brand, String model, int noOfPassengers, String fuelType, String transmissionMode, double dailyRentalPrice, String status) {
         this.carId = carId;
         this.brand = brand;

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -29,6 +30,11 @@ public class Customer {
 
 
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name  ="customer_id")
+    List<Reservation> reservations=new ArrayList<>();
+
+
 
     public Customer(String firstName, String lastName, String userName, String password, String dateTime) {
         this.firstName = firstName;
@@ -36,5 +42,8 @@ public class Customer {
         this.userName = userName;
         this.password = password;
         this.dateTime =String.valueOf(dateTime) ;
+    }
+
+    public Customer(Integer id, String firstName, String lastName, String nic, String address, String contact, String email, String userName, String password, String dateTime) {
     }
 }
