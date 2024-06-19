@@ -121,7 +121,7 @@ public ResponseEntity<Object> getAllCars(){
         }
 
     }
-    @PutMapping("/customerUpdateById")
+    @PutMapping("/customerUpdateById/{customerId}")
     public ResponseEntity<Object> updateCustomerById( @RequestBody CustomerDTO customerDTO, @RequestHeader(name = "Authorization") String authorizationHeader) {
         if (jwtTokenGenerator.validateJwtToken(authorizationHeader)) {
             Customer customerFromJwtToken=jwtTokenGenerator.getCustomerFromJwtToken(authorizationHeader);
@@ -132,6 +132,15 @@ public ResponseEntity<Object> getAllCars(){
         }
 
     }
+//    public ResponseEntity<Object> updateCustomerById(@PathVariable Integer customerId, @RequestBody Map<String, String> updates, @RequestHeader(name = "Authorization") String authorizationHeader) {
+//        if (jwtTokenGenerator.validateJwtToken(authorizationHeader)) {
+//            Customer customerFromJwtToken = jwtTokenGenerator.getCustomerFromJwtToken(authorizationHeader);
+//            Customer updatedCustomer = customerService.updateCustomerById(customerFromJwtToken, updates);
+//            return new ResponseEntity<>(updatedCustomer, HttpStatus.CREATED);
+//        } else {
+//            return new ResponseEntity<>("Invalid token By Customer", HttpStatus.FORBIDDEN);
+//        }
+//    }
     @PutMapping("/customerUserNamePasswordUpdateById")
     public ResponseEntity<Object> updateCustomerUserNamePasswordById( @RequestBody CustomerDTO customerDTO, @RequestHeader(name = "Authorization") String authorizationHeader) {
         if (jwtTokenGenerator.validateJwtToken(authorizationHeader)) {

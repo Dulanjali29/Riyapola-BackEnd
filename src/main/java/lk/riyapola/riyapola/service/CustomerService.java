@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -112,13 +113,14 @@ private  final JWTTokenGenerator jwtTokenGenerator;
         if(customerRepo.existsById(Integer.valueOf(customerFromJwtToken.getCustomer_id()))){
          Customer customer=customerRepo.findById(customerFromJwtToken.getCustomer_id()).orElse(null);
          if(customer!=null){
-             customer.setFirstName(customerDTO.getFirstName());
-             customer.setLastName(customerDTO.getLastName());
+//             customer.setFirstName(customerDTO.getFirstName());
+//             customer.setLastName(customerDTO.getLastName());
+             customer.setCustomer_id(customer.getCustomer_id());
              customer.setNic(customerDTO.getNic());
              customer.setAddress(customerDTO.getAddress());
              customer.setContact(customerDTO.getContact());
              customer.setEmail(customerDTO.getEmail());
-             customer.setDateTime(customerFromJwtToken.getDateTime());
+//             customer.setDateTime(customerFromJwtToken.getDateTime());
              System.out.println(customerFromJwtToken.getDateTime());
              customerRepo.save(customer);
              return  customer;
@@ -130,6 +132,35 @@ private  final JWTTokenGenerator jwtTokenGenerator;
         }
         return  null;
     }
+//public Customer updateCustomerById(Customer customerFromJwtToken, Map<String, String> updates) {
+//    Optional<Customer> optionalCustomer = customerRepo.findById(customerFromJwtToken.getCustomer_id());
+//    System.out.println(optionalCustomer);
+//    if (optionalCustomer.isPresent()) {
+//        Customer customer = optionalCustomer.get();
+//        updates.forEach((key, value) -> {
+//            switch (key) {
+//                case "nic":
+//                    customer.setNic(value);
+//                    break;
+//                case "address":
+//                    customer.setAddress(value);
+//                    break;
+//                case "email":
+//                    customer.setEmail(value);
+//                    break;
+//                case "contact":
+//                    customer.setContact(value);
+//                    break;
+//                default:
+//                    throw new IllegalArgumentException("Unexpected value: " + key);
+//            }
+//        });
+//        return customerRepo.save(customer);
+//
+//    } else {
+//        throw new RuntimeException("Customer with id " + customerFromJwtToken.getCustomer_id() + " not found");
+//    }
+//}
     public Customer updateCustomerUserNamePasswordById(Customer customerFromJwtToken,CustomerDTO customerDTO){
 
         BCryptPasswordEncoder bCryptPasswordEncoder=new BCryptPasswordEncoder();
