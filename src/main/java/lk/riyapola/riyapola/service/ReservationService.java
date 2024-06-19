@@ -1,9 +1,12 @@
 package lk.riyapola.riyapola.service;
 
 import lk.riyapola.riyapola.dto.ReservationDTO;
+import lk.riyapola.riyapola.entity.Customer;
 import lk.riyapola.riyapola.entity.Reservation;
 import lk.riyapola.riyapola.repo.ReservationRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.datetime.DateFormatter;
+import org.springframework.format.datetime.DateFormatterRegistrar;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,8 +26,11 @@ public class ReservationService {
     public ReservationService(ReservationRepo reservationRepo) {
         this.reservationRepo = reservationRepo;
     }
-    public Reservation saveReservation(ReservationDTO reservationDTO){
+    public Reservation saveReservation( ReservationDTO reservationDTO){
+
         Reservation save=reservationRepo.save(new Reservation(
+
+
                 reservationDTO.getStartDate(),
                  reservationDTO.getStartTime(),
                  reservationDTO.getEndDate(),

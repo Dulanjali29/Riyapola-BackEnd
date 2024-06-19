@@ -1,11 +1,13 @@
 package lk.riyapola.riyapola.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 /**
  * Created by dulanjali
@@ -19,10 +21,14 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class ReservationDTO {
     private Integer reservationId;
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate startDate;
-    private Time startTime;
+    @JsonFormat(pattern = "HH:mm")
+    private LocalTime startTime;
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate endDate;
-    private Time endTime;
+    @JsonFormat(pattern = "HH:mm")
+    private LocalTime endTime;
     private String picUpLocation;
     private Integer carId;
     private Integer customer_id;

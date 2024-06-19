@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface CustomerRepo extends JpaRepository<Customer,Integer> {
 
-
+  Customer findCustomersByUserName(String userName);
   List<Customer> findCustomerByUserName(String userName);
 
 

@@ -55,7 +55,7 @@ public class CustomerController {
             Customer customer = customerService.updateCustomer(customerId, customerDTO);
             return new ResponseEntity<>(customer, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("Invalid token By Admin", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("Invalid token By customer", HttpStatus.FORBIDDEN);
         }
 
     }
@@ -66,7 +66,7 @@ public class CustomerController {
             String output = customerService.deleteCustomer(customerId);
             return new ResponseEntity<>(output, HttpStatus.CREATED);
         }else {
-            return new ResponseEntity<>("Invalid token By Admin", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("Invalid token By Customer", HttpStatus.FORBIDDEN);
         }
 
     }

@@ -1,6 +1,7 @@
 package lk.riyapola.riyapola.controller;
 
 import lk.riyapola.riyapola.dto.ReservationDTO;
+import lk.riyapola.riyapola.entity.Customer;
 import lk.riyapola.riyapola.entity.Reservation;
 import lk.riyapola.riyapola.service.ReservationService;
 import lk.riyapola.riyapola.util.JWTTokenGenerator;
@@ -31,6 +32,7 @@ public class ReservationController {
     @PostMapping("/addReservation")
     public ResponseEntity<Object> saveReservation(@RequestHeader(name = "Authorization") String authorizationHeader, @RequestBody ReservationDTO reservationDTO){
         if(jwtTokenGenerator.validateJwtToken(authorizationHeader)){
+
             Reservation savereservation = reservationService.saveReservation(reservationDTO);
             return  new ResponseEntity<>(savereservation, HttpStatus.CREATED);
 

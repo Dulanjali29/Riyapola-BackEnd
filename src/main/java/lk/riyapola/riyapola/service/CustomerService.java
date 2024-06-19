@@ -161,6 +161,9 @@ private  final JWTTokenGenerator jwtTokenGenerator;
       if(match){
           String token=this.jwtTokenGenerator.generateJwtToken(customer);
           response.put("token",token);
+          Integer cusId= customer.getCustomer_id();
+          response.put("cusId", String.valueOf(cusId));
+          System.out.println(cusId);
           return  response;
       }else {
           response.put("massage","Customer Token Generated failed !");
