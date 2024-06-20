@@ -132,35 +132,30 @@ private  final JWTTokenGenerator jwtTokenGenerator;
         }
         return  null;
     }
-//public Customer updateCustomerById(Customer customerFromJwtToken, Map<String, String> updates) {
-//    Optional<Customer> optionalCustomer = customerRepo.findById(customerFromJwtToken.getCustomer_id());
-//    System.out.println(optionalCustomer);
-//    if (optionalCustomer.isPresent()) {
-//        Customer customer = optionalCustomer.get();
-//        updates.forEach((key, value) -> {
-//            switch (key) {
-//                case "nic":
-//                    customer.setNic(value);
-//                    break;
-//                case "address":
-//                    customer.setAddress(value);
-//                    break;
-//                case "email":
-//                    customer.setEmail(value);
-//                    break;
-//                case "contact":
-//                    customer.setContact(value);
-//                    break;
-//                default:
-//                    throw new IllegalArgumentException("Unexpected value: " + key);
-//            }
-//        });
-//        return customerRepo.save(customer);
+    public Customer updateCustomerProfileById(Customer customerFromJwtToken,CustomerDTO customerDTO){
+        if(customerRepo.existsById(Integer.valueOf(customerFromJwtToken.getCustomer_id()))){
+            Customer customer=customerRepo.findById(customerFromJwtToken.getCustomer_id()).orElse(null);
+            if(customer!=null){
+                customer.setCustomer_id(customer.getCustomer_id());
+                 customer.setFirstName(customerDTO.getFirstName());
+                customer.setLastName(customerDTO.getLastName());
+                customer.setNic(customerDTO.getNic());
+                customer.setAddress(customerDTO.getAddress());
+                customer.setContact(customerDTO.getContact());
+                customer.setEmail(customerDTO.getEmail());
 //
-//    } else {
-//        throw new RuntimeException("Customer with id " + customerFromJwtToken.getCustomer_id() + " not found");
-//    }
-//}
+
+                customerRepo.save(customer);
+                return  customer;
+
+            } else {
+                System.out.println("Customer with id not found ");
+            }
+
+        }
+        return  null;
+    }
+
     public Customer updateCustomerUserNamePasswordById(Customer customerFromJwtToken,CustomerDTO customerDTO){
 
         BCryptPasswordEncoder bCryptPasswordEncoder=new BCryptPasswordEncoder();

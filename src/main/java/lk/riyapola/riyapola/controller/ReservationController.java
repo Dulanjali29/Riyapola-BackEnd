@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * Created by dulanjali
  * Project Name : riyapola
@@ -43,7 +45,9 @@ public class ReservationController {
 
     @GetMapping("/getAllReservation")
     public ResponseEntity<Object> getAllReservation(){
-        return  null;
+        List<Reservation> getDto=reservationService.getAllReservation();
+
+        return  new ResponseEntity<>(getDto,HttpStatus.OK);
     }
 
 

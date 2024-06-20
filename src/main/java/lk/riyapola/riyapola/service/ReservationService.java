@@ -44,6 +44,7 @@ public class ReservationService {
     return  save;
     }
     public List<Reservation> getAllReservation(){
-    return  null;
+        List <Reservation>all=reservationRepo.findAll();
+    return  all;
     }
 }
