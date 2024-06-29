@@ -49,7 +49,7 @@ public class CustomerController {
         }
     }
 
-    @PutMapping("customerUpdate/{customerId}")
+    @PutMapping("/customerUpdate/{customerId}")
     public ResponseEntity<Object> updateCustomer(@PathVariable Integer customerId, @RequestBody CustomerDTO customerDTO, @RequestHeader(name = "Authorization") String authorizationHeader) {
         if (jwtTokenGenerator.validateJwtToken(authorizationHeader)) {
             Customer customer = customerService.updateCustomer(customerId, customerDTO);
@@ -60,7 +60,7 @@ public class CustomerController {
 
     }
 
-    @DeleteMapping("customerDelete/{customerId}")
+    @DeleteMapping("/customerDelete/{customerId}")
     public ResponseEntity<Object> deleteCustomer(@PathVariable Integer customerId, @RequestHeader(name = "Authorization") String authorizationHeader) {
         if(jwtTokenGenerator.validateJwtToken(authorizationHeader)){
             String output = customerService.deleteCustomer(customerId);
@@ -82,15 +82,15 @@ public class CustomerController {
         Customer customer = customerService.searchCustomerByName(customerName);
         return new ResponseEntity<>(customer, HttpStatus.OK);
     }
-@GetMapping("/getAllCars")
-public ResponseEntity<Object> getAllCars(){
+    @GetMapping("/getAllCars")
+    public ResponseEntity<Object> getAllCars(){
         try {
           List<Car> allCars=customerService.getAllCars();
           return  new ResponseEntity<>(allCars,HttpStatus.OK);
         }catch (Exception e){
             return  new ResponseEntity<>("No Cars",HttpStatus.FORBIDDEN);
         }
-  }
+     }
     @GetMapping("/registerdCustomer/getAllCars")
     public ResponseEntity<Object> getAllCars(@RequestHeader(name = "Authorization") String authorizationHeader) {
         if (jwtTokenGenerator.validateJwtToken(authorizationHeader)) {
@@ -154,6 +154,15 @@ public ResponseEntity<Object> getAllCars(){
         }
 
     }
+//    @GetMapping("/searchCustomer/{customerId}")
+//    public ResponseEntity<Object> searchCustomer( @RequestHeader(name = "Authorization") String authorizationHeader,@PathVariable Integer customerId){
+//        if (jwtTokenGenerator.validateJwtToken(authorizationHeader)) {
+//           Customer customerSearch=  customerService.searchCustomer(customerId);
+//            return new ResponseEntity<>(customerSearch, HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<>("Invalid token ", HttpStatus.FORBIDDEN);
+//        }
+//    }
     @PostMapping("/login")
     public  ResponseEntity<Object> customerLogin(@RequestBody CustomerDTO customerDTO){
         try {

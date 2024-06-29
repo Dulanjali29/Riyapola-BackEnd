@@ -44,7 +44,7 @@ public class Customer {
         this.dateTime =String.valueOf(dateTime) ;
     }
 
-    public Customer(Integer id, String firstName, String lastName, String nic, String address, String contact, String email, String userName, String password, String dateTime) {
+    public Customer(Integer customer_id, String firstName, String lastName, String nic, String address, String contact, String email, String userName, String password, String dateTime) {
     }
 
     public Customer(String nic, String address, String contact, String email) {

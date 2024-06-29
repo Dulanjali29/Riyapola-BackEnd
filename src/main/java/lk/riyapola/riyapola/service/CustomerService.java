@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -78,6 +77,7 @@ private  final JWTTokenGenerator jwtTokenGenerator;
         }
         return  null;
     }
+
     public String deleteCustomer(Integer id){
         if(customerRepo.existsById(id)){
             customerRepo.deleteById(id);
@@ -85,6 +85,7 @@ private  final JWTTokenGenerator jwtTokenGenerator;
         }
         return "No customerFound!";
     }
+
     public  Customer searchCustomerById(Integer id){
         Optional<Customer> byId=customerRepo.findById(id);
         return byId.orElse(null);
@@ -137,7 +138,7 @@ private  final JWTTokenGenerator jwtTokenGenerator;
             Customer customer=customerRepo.findById(customerFromJwtToken.getCustomer_id()).orElse(null);
             if(customer!=null){
                 customer.setCustomer_id(customer.getCustomer_id());
-                 customer.setFirstName(customerDTO.getFirstName());
+                customer.setFirstName(customerDTO.getFirstName());
                 customer.setLastName(customerDTO.getLastName());
                 customer.setNic(customerDTO.getNic());
                 customer.setAddress(customerDTO.getAddress());
@@ -198,4 +199,11 @@ private  final JWTTokenGenerator jwtTokenGenerator;
     }
     return  response;
     }
+//    public Customer searchCustomer(Integer customerId){
+//        if(customerRepo.existsById(customerId)){
+//           Customer customerdetail= customerRepo.getCustomerByCustomerId(customerId);
+//            return customerdetail;
+//        }
+//     return  null;
+//    }
 }
